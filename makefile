@@ -11,6 +11,8 @@ GLEW_LINK = -L $(GLEW_LOC)/lib/ -lGLEW
 CC =		clang
 CFLAGS =	-Wall -Wextra -Werror
 
+LIBFT =		libft
+
 HEADERS = -I includes/ -I $(GLFW_INC) -I $(GLEW_INC)
 
 SRCS = sources/main.c \
@@ -28,14 +30,18 @@ all: $(NAME)
 	@$(CC) -c $(CFLAGS) $(HEADERS) -I. $< -o $@
 
 $(NAME): $(OBJS)
-	@$(CC) -o $(NAME) $(OBJS) $(GLFW_LINK) $(GLEW_LINK) -framework OpenGL #-fsanitize=address
+	@$(MAKE) -C $(LIBFT)
+	@$(CC) -o $(NAME) $(OBJS) libft/libft.a $(GLFW_LINK) $(GLEW_LINK) -framework OpenGL #-fsanitize=address
 	@printf "$(_GREEN)scop compiled\n$(_END)"
 
 clean:
+	@$(MAKE) clean -C $(LIBFT)
 	@/bin/rm -rf $(OBJDIR)
+	@printf "libft cleaned\n"
 	@printf "scop cleaned\n"
 
 fclean: clean
+	@$(MAKE) fclean -C $(LIBFT)
 	@/bin/rm -f $(NAME)
 	@printf "scop fcleaned\n"
 
