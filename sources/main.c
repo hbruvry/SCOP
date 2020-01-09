@@ -32,6 +32,21 @@ const char	*fragmentshadersource =
 ** TODO
 */
 
+void		ft_draw(uint shaderprogram, uint vao)
+{
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(shaderprogram);
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glfwPollEvents();
+	return ;
+}
+
+/*
+** TODO
+*/
+
 int			ft_createshaders(uint *vertexshader, uint *fragmentshader)
 {
 	int		success;
@@ -75,18 +90,6 @@ int			ft_createshaderprogram(uint *shaderprogram,
 	glDeleteShader(*vertexshader);
 	glDeleteShader(*fragmentshader);
 	return (0);
-}
-
-/*
-** TODO
-*/
-
-void		ft_draw(uint shaderprogram, uint vao)
-{
-	glUseProgram(shaderprogram);
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	return ;
 }
 
 /*
@@ -134,10 +137,16 @@ int			main(void)
 	uint		shaderprogram;
 	uint		vao;
 	uint		vbo;
+	uint		ebo;
 	float		vertices[] = {
+    	0.5f, 0.5f, 0.0f,
+    	0.5f, -0.5f, 0.0f,
 		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f
+		-0.5f, 0.5f, 0.0f 
+	};
+	uint		indices[] = {
+		0, 1, 3,
+		1, 2, 3
 	};
 
 	if (ft_createwindow(&window))
@@ -150,25 +159,26 @@ int			main(void)
 /**/
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-	3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	glGenBuffers(1, &ebo);
 	glBindVertexArray(vao);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-	3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 /**/
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 		&& !glfwWindowShouldClose(window))
 	{
-		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
 		ft_draw(shaderprogram, vao);
-		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
 	glfwTerminate();
