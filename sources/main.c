@@ -13,34 +13,29 @@
 #include "includes/scop.h"
 
 /*
-** Vertex shader function
+** File copy function
 */
 
-const char	*g_vertexshadersource =
-"#version 410 core\n"
-//"out vec4 vertexColor;\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"	gl_Position = vec4(aPos, 1.f);\n"
-//"	vertexColor = vec4(0.f, 1.f, 0.f, 1.f);\n"
-"}\0";
+char		*ft_filecpy(char *path)
+{
+	int		fd;
+	int		ret;
+	char	*line;
+	char	*file;
 
-/*
-** Fragment shader function
-*/
-
-const char	*g_fragmentshadersource =
-"#version 410 core\n"
-"out vec4 FragColor;\n"
-//"in vec4 vertexColor;\n"
-"uniform vec4 sinTimeColor;\n"
-"void main()\n"
-"{\n"
-//"	FragColor = vec4(0.f, 1.f, 0.f, 1.f);\n"
-//"	FragColor = vertexColor;\n"
-"	FragColor = sinTimeColor;\n"
-"}\n\0";
+	fd = 0;
+	line = NULL;
+	file = NULL;
+	if ((fd = open(path, O_RDONLY)) == -1)
+		return (0);
+	while ((ret = get_next_line(fd, &line)) == 1)
+	{
+		file = ft_strjoin(file, line);
+		file = ft_strjoin(file, "\n");
+	}
+	file = ft_strjoin(file, "\0");
+	return (file);
+}
 
 /*
 ** Create window and context function,
@@ -82,10 +77,12 @@ int			ft_createwindow(GLFWwindow **window)
 
 int			ft_createvertexshader(uint *vertexshader)
 {
-	int		success;
+	int			success;
+	const char	*vertexshadersource;
 
 	*vertexshader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(*vertexshader, 1, &g_vertexshadersource, NULL);
+	vertexshadersource = ft_filecpy("./shaders/vertexshader.vs");
+	glShaderSource(*vertexshader, 1, &vertexshadersource, NULL);
 	glCompileShader(*vertexshader);
 	glGetShaderiv(*vertexshader, GL_COMPILE_STATUS, &success);
 	if (!success)
@@ -102,8 +99,11 @@ int			ft_createvertexshader(uint *vertexshader)
 
 int			ft_createfragmentshader(uint *fragmentshader)
 {
+	const char	*fragmentshadersource;
+
 	*fragmentshader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(*fragmentshader, 1, &g_fragmentshadersource, NULL);
+	fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs");
+	glShaderSource(*fragmentshader, 1, &fragmentshadersource, NULL);
 	glCompileShader(*fragmentshader);
 	return (0);
 }
@@ -142,7 +142,7 @@ int			ft_createshaderprogram(uint *shaderprogram,
 ** used to decide what vertices to draw
 */
 
-int		ft_creatervao(uint *vao)
+int			ft_creatervao(uint *vao)
 {
 	uint		vbo;
 	uint		ebo;
