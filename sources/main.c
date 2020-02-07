@@ -114,6 +114,8 @@ int			ft_createfragmentshader(uint *fragmentshader)
 /*
 ** Create a program from vertex and fragment shaders
 ** and delete shaders once we've linked them into the program
+**
+** TODO : delete shader in !succes case
 */
 
 int			ft_createshaderprogram(uint *shaderprogram,
@@ -132,9 +134,39 @@ int			ft_createshaderprogram(uint *shaderprogram,
 		glGetProgramInfoLog(*shaderprogram, 512, NULL, infolog);
 		ft_putstr("Failed to create shader program\n");
 		ft_putstr(infolog);
+		return (-1);
 	}
 	glDeleteShader(*vertexshader);
 	glDeleteShader(*fragmentshader);
+	return (0);
+}
+
+/*
+**
+*/
+
+int			ft_createtexture(uint *texture)
+{
+	int				width;
+	int				height;
+	int				nrchannels;
+	unsigned char	*data;
+
+	glGenTextures(1, texture);
+	glBindTexture(GL_TEXTURE_2D, *texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	data = stbi_load("ressources/textures/STONE_TEXTURE.jpg", &width, &height, &nrchannels, 0);
+	if (!data)
+	{
+		ft_putstr("Failed to load texture\n");
+		return (-1);
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(data);
 	return (0);
 }
 
@@ -147,13 +179,21 @@ int			ft_createshaderprogram(uint *shaderprogram,
 ** used to decide what vertices to draw
 */
 
-int			ft_creatervao(uint *vao)
+void		ft_creatervao(uint *vao)
 {
-	uint		vbo;
-	uint		ebo;
-	float		vertices[] = {0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f,
-							-0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f};
-	uint		indices[] = {0, 1, 3, 1, 2, 3};
+	uint	vbo;
+	uint	ebo;
+	float	vertices[] = {
+		// positions		// colors		// texels
+		0.5f,  0.5f, 0.f,	1.f, 0.f, 0.f,	1.f, 1.f,	
+		0.5f, -0.5f, 0.f,	0.f, 1.f, 0.f,	1.f, 0.f,
+	   -0.5f, -0.5f, 0.f,	0.f, 0.f, 1.f,	0.f, 0.f,
+	   -0.5f,  0.5f, 0.f,	1.f, 1.f, 0.f,	0.f, 1.f
+	};
+	uint	indices[] = {
+		0, 1, 3,
+		1, 2, 3
+	};
 
 	glGenVertexArrays(1, vao);
 	glBindVertexArray(*vao);
@@ -165,33 +205,33 @@ int			ft_creatervao(uint *vao)
 				sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
 				sizeof(indices), indices, GL_STATIC_DRAW);
+	// Attribute positions
 	glVertexAttribPointer(0, 3, GL_FLOAT,
-				GL_FALSE, 3 * sizeof(float), (void*)0);
+				GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	// Attribute colors
+	glVertexAttribPointer(1, 3, GL_FLOAT,
+				GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	// Attribute texels
+	glVertexAttribPointer(2, 2, GL_FLOAT,
+				GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	return (0);
+	return ;
 }
 
 /*
 ** TODO
 */
 
-void		ft_draw(uint shaderprogram, uint vao)
+void		ft_draw(uint shaderprogram, uint texture, uint vao)
 {
-	float	timevalue;
-	float	greenvalue;
-	float	redvalue;
-	int		vertexcolorlocation;
-
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glUseProgram(shaderprogram);
-	timevalue = glfwGetTime();
-	greenvalue = sin(timevalue) / 2.f + 0.5f;
-	redvalue = cos(timevalue) / 2.f + 0.5f;
-	vertexcolorlocation = glGetUniformLocation(shaderprogram, "sinTimeColor");
-	glUniform4f(vertexcolorlocation, redvalue, greenvalue, 0.f, 1.f);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glfwPollEvents();
@@ -208,22 +248,24 @@ int			main(void)
 	uint		vertexshader;
 	uint		fragmentshader;
 	uint		shaderprogram;
+	uint		texture;
 	uint		vao;
 
 	if (ft_createwindow(&window)
+	|| ft_createtexture(&texture)
 	|| ft_createvertexshader(&vertexshader)
 	|| ft_createfragmentshader(&fragmentshader)
-	|| ft_createshaderprogram(&shaderprogram, &vertexshader, &fragmentshader)
-	|| ft_creatervao(&vao))
+	|| ft_createshaderprogram(&shaderprogram, &vertexshader, &fragmentshader))
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
+	ft_creatervao(&vao);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 		&& !glfwWindowShouldClose(window))
 	{
-		ft_draw(shaderprogram, vao);
+		ft_draw(shaderprogram, texture, vao);
 		glfwSwapBuffers(window);
 	}
 	glfwTerminate();

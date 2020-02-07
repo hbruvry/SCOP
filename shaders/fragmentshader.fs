@@ -1,9 +1,12 @@
 #version 410 core
-
 out vec4 FragColor;
-uniform vec4 sinTimeColor;
+
+in vec3 ourColor;
+in vec2 TexCoord;
+
+uniform sampler2D ourTexture;
 
 void main()
 {
-	FragColor = sinTimeColor;
+    FragColor = texture(ourTexture, TexCoord);
 }

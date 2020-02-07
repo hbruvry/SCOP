@@ -17,5 +17,7 @@
 # include <GLFW/glfw3.h>
 # include <math.h>
 # include "libft/libft.h"
+# define STB_IMAGE_IMPLEMENTATION
+# include "includes/stb_image.h"
 
 #endif
