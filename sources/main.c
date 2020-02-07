@@ -79,6 +79,7 @@ int			ft_createvertexshader(uint *vertexshader)
 {
 	int			success;
 	const char	*vertexshadersource;
+	char		infolog[512];
 
 	*vertexshader = glCreateShader(GL_VERTEX_SHADER);
 	vertexshadersource = ft_filecpy("./shaders/vertexshader.vs");
@@ -87,7 +88,9 @@ int			ft_createvertexshader(uint *vertexshader)
 	glGetShaderiv(*vertexshader, GL_COMPILE_STATUS, &success);
 	if (!success)
 	{
+		glGetShaderInfoLog(*vertexshader, 512, NULL, infolog);
 		ft_putstr("Failed to create vertex shader\n");
+		ft_putstr(infolog);
 		return (-1);
 	}
 	return (0);
@@ -117,6 +120,7 @@ int			ft_createshaderprogram(uint *shaderprogram,
 									uint *vertexshader, uint *fragmentshader)
 {
 	int		success;
+	char	infolog[512];
 
 	*shaderprogram = glCreateProgram();
 	glAttachShader(*shaderprogram, *vertexshader);
@@ -125,8 +129,9 @@ int			ft_createshaderprogram(uint *shaderprogram,
 	glGetProgramiv(*shaderprogram, GL_LINK_STATUS, &success);
 	if (!success)
 	{
+		glGetProgramInfoLog(*shaderprogram, 512, NULL, infolog);
 		ft_putstr("Failed to create shader program\n");
-		return (-1);
+		ft_putstr(infolog);
 	}
 	glDeleteShader(*vertexshader);
 	glDeleteShader(*fragmentshader);
