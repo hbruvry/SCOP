@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scop.h                                             :+:      :+:    :+:   */
+/*   ft_mat4sub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 18:13:30 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/01/09 18:13:33 by hbruvry          ###   ########.fr       */
+/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
+/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SCOP_H
-# define __SCOP_H
-
-# include <GL/glew.h>
-# include <GLFW/glfw3.h>
-# include "lib/libft/libft.h"
-# include "lib/libmath/libmath.h"
+#include "./libmath.h"
 
 /*
-** TODO : Create my own lib
+** TODO
 */
 
-# define STB_IMAGE_IMPLEMENTATION
-# include "includes/stb_image.h"
+t_mat4  ft_mat4sub(t_mat4 mdst, t_mat4 msrc)
+{
+    int i;
 
-#endif
+    i = -1;
+    while (i++ < 16)
+        mdst.m[i] -= msrc.m[i];
+    return (mdst);
+}

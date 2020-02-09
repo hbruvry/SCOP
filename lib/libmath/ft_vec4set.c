@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scop.h                                             :+:      :+:    :+:   */
+/*   ft_vec4set.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 18:13:30 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/01/09 18:13:33 by hbruvry          ###   ########.fr       */
+/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
+/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SCOP_H
-# define __SCOP_H
-
-# include <GL/glew.h>
-# include <GLFW/glfw3.h>
-# include "lib/libft/libft.h"
-# include "lib/libmath/libmath.h"
+#include "./libmath.h"
 
 /*
-** TODO : Create my own lib
+** TODO
 */
 
-# define STB_IMAGE_IMPLEMENTATION
-# include "includes/stb_image.h"
+t_vec4  vec4set(float x, float y, float z, float w)
+{
+    t_vec4 vec;
 
-#endif
+    vec.v[0] = x;
+    vec.v[1] = y;
+    vec.v[2] = z;
+    vec.v[3] = w;
+    return (vec);
+}

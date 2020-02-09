@@ -145,7 +145,7 @@ int			ft_createshaderprogram(uint *shaderprogram,
 **
 */
 
-int			ft_createtexture(uint *texture)
+int			ft_createtexture(uint *texture, char *path)
 {
 	int				width;
 	int				height;
@@ -158,7 +158,7 @@ int			ft_createtexture(uint *texture)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	data = stbi_load("ressources/textures/STONE_TEXTURE.jpg", &width, &height, &nrchannels, 0);
+	data = stbi_load(path, &width, &height, &nrchannels, 0);
 	if (!data)
 	{
 		ft_putstr("Failed to load texture\n");
@@ -226,11 +226,14 @@ void		ft_creatervao(uint *vao)
 ** TODO
 */
 
-void		ft_draw(uint shaderprogram, uint texture, uint vao)
+void		ft_draw(uint shaderprogram, uint *texture, uint vao)
 {
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glUseProgram(shaderprogram);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -248,11 +251,12 @@ int			main(void)
 	uint		vertexshader;
 	uint		fragmentshader;
 	uint		shaderprogram;
-	uint		texture;
+	uint		texture[2];
 	uint		vao;
 
 	if (ft_createwindow(&window)
-	|| ft_createtexture(&texture)
+	|| ft_createtexture(&texture[0], "ressources/textures/STONE_TEXTURE.jpg")
+	|| ft_createtexture(&texture[1], "ressources/textures/SNOW_TEXTURE.jpg")
 	|| ft_createvertexshader(&vertexshader)
 	|| ft_createfragmentshader(&fragmentshader)
 	|| ft_createshaderprogram(&shaderprogram, &vertexshader, &fragmentshader))
@@ -260,6 +264,9 @@ int			main(void)
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
+	glUseProgram(shaderprogram);
+	glUniform1i(glGetUniformLocation(shaderprogram, "texture1"), 0);
+	glUniform1i(glGetUniformLocation(shaderprogram, "texture2"), 1);
 	ft_creatervao(&vao);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
