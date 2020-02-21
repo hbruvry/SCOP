@@ -40,7 +40,6 @@ t_vec4				ft_vec4set(float x, float y, float z, float w);
 t_vec3				ft_vec3cpy(t_vec3 *vdst, t_vec3 vsrc);
 t_vec3				ft_vec3add(t_vec3 vdst, t_vec3 vsrc);
 t_vec3				ft_vec3sub(t_vec3 vdst, t_vec3 vsrc);
-t_vec3				ft_vec3mul(t_vec3 vdst, t_vec3 vsrc);
 t_vec3				ft_vec3scale(t_vec3 vec, float f);
 float				ft_vec3magnitude(t_vec3 vec);
 t_vec3				ft_vec3norm(t_vec3 vec);
@@ -54,5 +53,6 @@ t_mat4				ft_mat4mul(t_mat4 mdst, t_mat4 msrc);
 t_mat4				ft_mat4scale(t_mat4 mat, float scale);
 t_mat4				ft_mat4transpose(t_mat4 mat);
 t_mat4				ft_mat4rotate(t_mat4 mat, int axis, float angle);
+t_vec3				ft_vec3appmat4(t_vec3 vec, t_mat4 mat);
 
 #endif

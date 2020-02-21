@@ -16,7 +16,7 @@
 ** TODO
 */
 
-t_vec3  vec3set(float x, float y, float z)
+t_vec3  ft_vec3set(float x, float y, float z)
 {
     t_vec3 vec;
 

@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scop.h                                             :+:      :+:    :+:   */
+/*   ft_vec3scale.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 18:13:30 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/01/09 18:13:33 by hbruvry          ###   ########.fr       */
+/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
+/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SCOP_H
-# define __SCOP_H
-
-# include <GL/glew.h>
-# include <GLFW/glfw3.h>
-# include "lib/libft/libft.h"
-# include "lib/libmath/libmath.h"
+#include "./libmath.h"
 
 /*
-** TODO : Create my own lib
+** TODO
 */
 
-# define STB_IMAGE_IMPLEMENTATION
-# include "includes/stb_image.h"
-
-# define WIDTH 480
-# define HEIGHT 360
-
-#endif
+t_vec3  ft_vec3scale(t_vec3 vec, float scale)
+{
+    vec.v[0] *= scale;
+    vec.v[1] *= scale;
+    vec.v[2] *= scale;
+    return (vec);
+}
