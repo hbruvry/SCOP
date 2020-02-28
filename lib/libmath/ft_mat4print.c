@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec3sub.c                                       :+:      :+:    :+:   */
+/*   ft_mat4print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/28 18:20:29 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/02/28 18:38:09 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:15:32 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:15:35 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 ** TODO
 */
 
-t_vec3	ft_vec3sub(t_vec3 vdst, t_vec3 vsrc)
+void	ft_mat4print(t_mat4 mat)
 {
 	int i;
 
 	i = -1;
-	while (++i < 3)
-		vdst.v[i] -= vsrc.v[i];
-	return (vdst);
+	while (++i < 16)
+		printf("mat[%d] = %f\n", i, mat.m[i]);
+	return ;
 }

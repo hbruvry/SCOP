@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/23 11:55:22 by hbruvry           #+#    #+#             */
-/*   Updated: 2018/10/15 09:27:28 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:21:12 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:21:15 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define __LIBMATH_H
 
 # include <math.h>
+# include <stdio.h>
 
 # define AXIS_X 0
 # define AXIS_Y 1
@@ -40,7 +41,7 @@ t_vec4				ft_vec4set(float x, float y, float z, float w);
 t_vec3				ft_vec3cpy(t_vec3 *vdst, t_vec3 vsrc);
 t_vec3				ft_vec3add(t_vec3 vdst, t_vec3 vsrc);
 t_vec3				ft_vec3sub(t_vec3 vdst, t_vec3 vsrc);
-t_vec3				ft_vec3scale(t_vec3 vec, float f);
+t_vec3				ft_vec3scalar(t_vec3 vec, float f);
 float				ft_vec3magnitude(t_vec3 vec);
 t_vec3				ft_vec3norm(t_vec3 vec);
 t_vec3				ft_vec3cross(t_vec3 vdst, t_vec3 vsrc);
@@ -50,9 +51,14 @@ t_mat4				ft_mat4cpy(t_mat4 *mdst, t_mat4 msrc);
 t_mat4				ft_mat4add(t_mat4 mdst, t_mat4 msrc);
 t_mat4				ft_mat4sub(t_mat4 mdst, t_mat4 msrc);
 t_mat4				ft_mat4mul(t_mat4 mdst, t_mat4 msrc);
-t_mat4				ft_mat4scale(t_mat4 mat, float scale);
+t_mat4				ft_mat4scalar(t_mat4 mat, float scale);
+t_mat4				ft_mat4scale(t_mat4 mat, t_vec3 vscale);
+t_mat4				ft_mat4rotate(t_mat4 mat, t_vec3 vrot);
+t_mat4				ft_mat4translate(t_mat4 mat, t_vec3 vtrans);
+t_mat4				ft_mat4transform(t_mat4 mat,
+									t_vec3 vscale, t_vec3 vrot, t_vec3 vtrans);
 t_mat4				ft_mat4transpose(t_mat4 mat);
-t_mat4				ft_mat4rotate(t_mat4 mat, int axis, float angle);
+void				ft_mat4print(t_mat4 mat);
 t_vec3				ft_vec3appmat4(t_vec3 vec, t_mat4 mat);
 
 #endif

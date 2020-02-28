@@ -19,15 +19,19 @@ SRCS =		ft_vec3set.c \
 			ft_vec3norm.c \
 			ft_vec3cross.c \
 			ft_vec3dot.c \
-			ft_vec3scale.c \
+			ft_vec3scalar.c \
 			ft_mat4set.c \
 			ft_mat4cpy.c \
 			ft_mat4add.c \
 			ft_mat4sub.c \
 			ft_mat4mul.c \
+			ft_mat4scalar.c \
 			ft_mat4scale.c \
-			ft_mat4transpose.c \
 			ft_mat4rotate.c \
+			ft_mat4translate.c \
+			ft_mat4transform.c \
+			ft_mat4transpose.c \
+			ft_mat4print.c \
 			ft_vec3appmat4.c \
 
 OBJS =		$(SRCS:.c=.o)

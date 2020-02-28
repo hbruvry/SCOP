@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_mat4cpy.c                                        :+:      :+:    :+:   */
+/*   ft_mat4cpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:14:59 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:17:10 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 ** TODO
 */
 
-t_mat4  ft_mat4cpy(t_mat4 *mdst, t_mat4 msrc)
+t_mat4	ft_mat4cpy(t_mat4 *mdst, t_mat4 msrc)
 {
-    int i;
+	int i;
 
-    i = -1;
-    while (i++ < 16)
-        mdst->m[i] = msrc.m[i];
-    return (*mdst);
+	i = -1;
+	while (i++ < 16)
+		mdst->m[i] = msrc.m[i];
+	return (*mdst);
 }

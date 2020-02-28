@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:19:49 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:19:51 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 ** TODO
 */
 
-float  ft_vec3magnitude(t_vec3 vec)
+float	ft_vec3magnitude(t_vec3 vec)
 {
-    float mag;
+	float mag;
 
-    mag = sqrt(vec.v[0] * vec.v[0] + vec.v[1] * vec.v[1] + vec.v[2] * vec.v[2]);
-    return (mag);
+	mag = sqrt(vec.v[0] * vec.v[0] + vec.v[1] * vec.v[1] + vec.v[2] * vec.v[2]);
+	return (mag);
 }

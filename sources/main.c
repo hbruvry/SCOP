@@ -6,7 +6,7 @@
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 10:53:18 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/01/09 17:05:49 by hbruvry          ###   ########.fr       */
+/*   Updated: 2020/02/28 18:21:46 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int			ft_createshaderprogram(uint *shaderprogram,
 }
 
 /*
-**
+** TODO
 */
 
 int			ft_createtexture(uint *texture, char *path)
@@ -164,7 +164,8 @@ int			ft_createtexture(uint *texture, char *path)
 		ft_putstr("Failed to load texture\n");
 		return (-1);
 	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
+				0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(data);
 	return (0);
@@ -179,16 +180,15 @@ int			ft_createtexture(uint *texture, char *path)
 ** used to decide what vertices to draw
 */
 
-void		ft_creatervao(uint *vao)
+void		ft_createvao(uint *vao)
 {
 	uint	vbo;
 	uint	ebo;
 	float	vertices[] = {
-		// positions		// colors		// texels
-		0.5f,  0.5f, -1.f,	1.f, 0.f, 0.f,	1.f, 1.f,	
-		0.5f, -0.5f, -1.f,	0.f, 1.f, 0.f,	1.f, 0.f,
-	   -0.5f, -0.5f, -0.5f,	0.f, 0.f, 1.f,	0.f, 0.f,
-	   -0.5f,  0.5f, -0.5f,	1.f, 1.f, 0.f,	0.f, 1.f
+		0.5f, 0.5f, 0.f, 1.f, 0.f, 0.f, 1.f, 1.f,
+		0.5f, -0.5f, 0.f, 0.f, 1.f, 0.f, 1.f, 0.f,
+		-0.5f, -0.5f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f,
+		-0.5f, 0.5f, 0.f, 1.f, 1.f, 0.f, 0.f, 1.f
 	};
 	uint	indices[] = {
 		0, 1, 3,
@@ -205,18 +205,15 @@ void		ft_creatervao(uint *vao)
 				sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
 				sizeof(indices), indices, GL_STATIC_DRAW);
-	// Attribute positions
-	glVertexAttribPointer(0, 3, GL_FLOAT,
-				GL_FALSE, 8 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+						8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	// Attribute colors
-	glVertexAttribPointer(1, 3, GL_FLOAT,
-				GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+						8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-	// Attribute texels
-	glVertexAttribPointer(2, 2, GL_FLOAT,
-				GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);	
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+						8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	return ;
@@ -242,13 +239,13 @@ void		ft_draw(uint shaderprogram, uint *texture, uint vao)
 }
 
 /*
-[+0][+1][+2][+3]
-[+4][+5][+6][+7]
-[+8][+9][10][11]
-[12][13][14][15]
+** [+0][+1][+2][+3]
+** [+4][+5][+6][+7]
+** [+8][+9][10][11]
+** [12][13][14][15]
 */
 
-t_mat4		ft_setprojectionmat(float fov, float ratio, float near, float far)
+t_mat4		ft_setprojectionmat4(float fov, float ratio, float near, float far)
 {
 	t_mat4	mat;
 	float	tanhalffov;
@@ -260,7 +257,30 @@ t_mat4		ft_setprojectionmat(float fov, float ratio, float near, float far)
 	mat.m[10] = -(far + near) / (far - near);
 	mat.m[11] = -1.f;
 	mat.m[14] = -2.f * far * near / (far - near);
-	return(mat);
+	return (mat);
+}
+
+/*
+** TODO
+*/
+
+void		ft_setpvmmatrices(uint shaderprogram)
+{
+	t_mat4	model;
+	t_mat4	projection;
+
+	ft_mat4set(&model, IDENTITY);
+	model = ft_mat4transform(model,
+							ft_vec3set(1.f, 1.f, 1.f),
+							ft_vec3set(0.f, -45.f, 0.f),
+							ft_vec3set(0.f, 0.f, -1.f));
+	model = ft_mat4transpose(model);
+	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "model"),
+											1, GL_FALSE, model.m);
+	projection = ft_setprojectionmat4(FOV, WIDTH / (float)HEIGHT, NEAR, FAR);
+	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "projection"),
+											1, GL_FALSE, projection.m);
+	return ;
 }
 
 /*
@@ -289,39 +309,8 @@ int			main(void)
 	glUseProgram(shaderprogram);
 	glUniform1i(glGetUniformLocation(shaderprogram, "texture1"), 0);
 	glUniform1i(glGetUniformLocation(shaderprogram, "texture2"), 1);
-/**/
-	t_mat4	projectionmat;
-	float	fov;
-	float	near;
-	float	far;
-	float	ratio;
-
-	fov = 90.f;
-	near = 0.1f;
-	far = 100.f;
-	ratio = WIDTH / (float)HEIGHT;
-	projectionmat = ft_setprojectionmat(fov, ratio, near, far);
-	/*
-	printf("m[0] = %f;\n", worldtocameramat.m[0]);
-	printf("m[1] = %f;\n", worldtocameramat.m[1]);
-	printf("m[2] = %f;\n", worldtocameramat.m[2]);
-	printf("m[3] = %f;\n", worldtocameramat.m[3]);
-	printf("m[4] = %f;\n", worldtocameramat.m[4]);
-	printf("m[5] = %f;\n", worldtocameramat.m[5]);
-	printf("m[6] = %f;\n", worldtocameramat.m[6]);
-	printf("m[7] = %f;\n", worldtocameramat.m[7]);
-	printf("m[8] = %f;\n", worldtocameramat.m[8]);
-	printf("m[9] = %f;\n", worldtocameramat.m[9]);
-	printf("m[10] = %f;\n", worldtocameramat.m[10]);
-	printf("m[11] = %f;\n", worldtocameramat.m[11]);
-	printf("m[12] = %f;\n", worldtocameramat.m[12]);
-	printf("m[13] = %f;\n", worldtocameramat.m[13]);
-	printf("m[14] = %f;\n", worldtocameramat.m[14]);
-	printf("m[15] = %f;\n", worldtocameramat.m[15]);
-	*/
-	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "projectionmat"), 1, GL_FALSE, projectionmat.m);
-	/**/
-	ft_creatervao(&vao);
+	ft_setpvmmatrices(shaderprogram);
+	ft_createvao(&vao);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 		&& !glfwWindowShouldClose(window))

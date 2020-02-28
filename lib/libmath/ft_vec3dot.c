@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:19:40 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:19:42 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 ** TODO
 */
 
-float  ft_vec3dot(t_vec3 vdst, t_vec3 vsrc)
+float	ft_vec3dot(t_vec3 vdst, t_vec3 vsrc)
 {
-    return (vdst.v[0] * vsrc.v[0] + vdst.v[1] * vsrc.v[1] + vdst.v[2] * vsrc.v[2]);
+	return (vdst.v[0] * vsrc.v[0]
+			+ vdst.v[1] * vsrc.v[1] + vdst.v[2] * vsrc.v[2]);
 }

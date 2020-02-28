@@ -6,7 +6,7 @@
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 18:13:30 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/01/09 18:13:33 by hbruvry          ###   ########.fr       */
+/*   Updated: 2020/02/28 18:22:00 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@
 # define STB_IMAGE_IMPLEMENTATION
 # include "includes/stb_image.h"
 
-# define WIDTH 480
+# define FOV    90
+# define WIDTH  480
 # define HEIGHT 360
+# define NEAR   0.1
+# define FAR    100
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_mat4set.c                                        :+:      :+:    :+:   */
+/*   ft_mat4set.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:18:13 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:18:14 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,22 @@
 ** TODO
 */
 
-void    ft_mat4set(t_mat4 *mat, float f)
+void	ft_mat4set(t_mat4 *mat, float f)
 {
-    int i;
+	int i;
 
-    i = -1;
-    while (++i < 16)
-    {
-        if (f == IDENTITY)
-        {
-            if (i % 5 == 0)
-                mat->m[i] = 1.f;
-            else
-                mat->m[i] = 0.f;
-        }
-        else
-            mat->m[i] = f;
-    }
-    return ;
+	i = -1;
+	while (++i < 16)
+	{
+		if (f == IDENTITY)
+		{
+			if (i % 5 == 0)
+				mat->m[i] = 1.f;
+			else
+				mat->m[i] = 0.f;
+		}
+		else
+			mat->m[i] = f;
+	}
+	return ;
 }

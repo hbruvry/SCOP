@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec3sub.c                                       :+:      :+:    :+:   */
+/*   ft_mat4translate.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/28 18:20:29 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/02/28 18:38:09 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:18:29 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:18:30 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 ** TODO
 */
 
-t_vec3	ft_vec3sub(t_vec3 vdst, t_vec3 vsrc)
+t_mat4	ft_mat4translate(t_mat4 mat, t_vec3 vtrans)
 {
-	int i;
+	t_mat4	mtrans;
 
-	i = -1;
-	while (++i < 3)
-		vdst.v[i] -= vsrc.v[i];
-	return (vdst);
+	ft_mat4set(&mtrans, IDENTITY);
+	mtrans.m[3] = vtrans.v[0];
+	mtrans.m[7] = vtrans.v[1];
+	mtrans.m[11] = vtrans.v[2];
+	mat = ft_mat4mul(mtrans, mat);
+	return (mat);
 }

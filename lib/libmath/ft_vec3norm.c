@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:19:58 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:20:00 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 ** TODO
 */
 
-t_vec3  ft_vec3norm(t_vec3 vec)
+t_vec3	ft_vec3norm(t_vec3 vec)
 {
-    int i;
-    float mag;
+	int		i;
+	float	mag;
 
-    i = -1;
-    mag = ft_vec3magnitude(vec);
-    while (i < 3)
-        vec.v[i] /= mag;
-    return (vec);
+	i = -1;
+	mag = ft_vec3magnitude(vec);
+	while (i < 3)
+		vec.v[i] /= mag;
+	return (vec);
 }

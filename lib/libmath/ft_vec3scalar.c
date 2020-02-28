@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec3scale.c                                     :+:      :+:    :+:   */
+/*   ft_vec3scalar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:20:08 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:20:10 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 ** TODO
 */
 
-t_vec3  ft_vec3scale(t_vec3 vec, float scale)
+t_vec3	ft_vec3scalar(t_vec3 vec, float scale)
 {
-    vec.v[0] *= scale;
-    vec.v[1] *= scale;
-    vec.v[2] *= scale;
-    return (vec);
+	vec.v[0] *= scale;
+	vec.v[1] *= scale;
+	vec.v[2] *= scale;
+	return (vec);
 }

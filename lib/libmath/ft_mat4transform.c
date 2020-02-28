@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec3sub.c                                       :+:      :+:    :+:   */
+/*   ft_mat4transform.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/28 18:20:29 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/02/28 18:38:09 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:18:02 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:18:05 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@
 ** TODO
 */
 
-t_vec3	ft_vec3sub(t_vec3 vdst, t_vec3 vsrc)
+t_mat4	ft_mat4transform(t_mat4 mat, t_vec3 vscale, t_vec3 vrot, t_vec3 vtrans)
 {
-	int i;
-
-	i = -1;
-	while (++i < 3)
-		vdst.v[i] -= vsrc.v[i];
-	return (vdst);
+	mat = ft_mat4scale(mat, vscale);
+	mat = ft_mat4rotate(mat, vrot);
+	mat = ft_mat4translate(mat, vtrans);
+	return (mat);
 }

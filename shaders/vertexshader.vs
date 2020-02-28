@@ -6,11 +6,12 @@ layout (location = 2) in vec2 aTexCoord;
 out vec3 ourColor;
 out vec2 TexCoord;
 
-uniform mat4 projectionmat;
+uniform mat4 projection;
+uniform mat4 model;
 
 void main()
 {
-    gl_Position = projectionmat * vec4(aPos, 1.0);
+    gl_Position = projection * model * vec4(aPos, 1.0);
     ourColor = aColor;
     TexCoord = aTexCoord;
 }

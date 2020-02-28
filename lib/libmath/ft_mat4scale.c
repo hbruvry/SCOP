@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/26 17:38:07 by hbruvry           #+#    #+#             */
-/*   Updated: 2017/12/02 20:17:04 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:16:03 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:16:05 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 ** TODO
 */
 
-t_mat4  ft_mat4scale(t_mat4 mat, float scale)
+t_mat4	ft_mat4scale(t_mat4 mat, t_vec3 vscale)
 {
-    int i;
+	t_mat4	mscale;
 
-    i = -1;
-    while (i++ < 16)
-        mat.m[i] *= scale;
-    return (mat);
+	ft_mat4set(&mscale, IDENTITY);
+	mscale.m[0] = vscale.v[0];
+	mscale.m[5] = vscale.v[1];
+	mscale.m[10] = vscale.v[2];
+	mat = ft_mat4mul(mscale, mat);
+	return (mat);
 }
