@@ -18,17 +18,39 @@
 # include "lib/libft/libft.h"
 # include "lib/libmath/libmath.h"
 
-/*
-** TODO : Create my own lib
-*/
+# define FOV	90
+# define WIDTH	480
+# define HEIGHT	360
+# define NEAR	0.1
+# define FAR	100
 
-# define STB_IMAGE_IMPLEMENTATION
-# include "includes/stb_image.h"
+typedef enum {true, false} bool;
 
-# define FOV    90
-# define WIDTH  480
-# define HEIGHT 360
-# define NEAR   0.1
-# define FAR    100
+typedef struct	s_cam
+{
+	t_vec3	vpos;
+	t_vec3	vfront;
+	t_vec3  vup;
+	bool	target;
+}				t_cam;
+
+typedef struct	s_time
+{
+	float	currentframe;
+	float	lastframe;
+	float	delta;
+}				t_time;
+
+typedef struct	s_env
+{
+	t_cam	cam;
+	t_time	time;
+}				t_env;
+
+t_env			*ft_getenv(void);
+void			ft_processinput(GLFWwindow *window);
+int				ft_createtexture(uint *texture, char *path);
+int				ft_creatematerial(uint *shaderprogram, uint	*texture);
+t_mat4			ft_setviewmatrix();
 
 #endif

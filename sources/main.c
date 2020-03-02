@@ -13,31 +13,6 @@
 #include "includes/scop.h"
 
 /*
-** File copy function
-*/
-
-char		*ft_filecpy(char *path)
-{
-	int		fd;
-	int		ret;
-	char	*line;
-	char	*file;
-
-	fd = 0;
-	line = NULL;
-	file = NULL;
-	if ((fd = open(path, O_RDONLY)) == -1)
-		return (0);
-	while ((ret = get_next_line(fd, &line)) == 1)
-	{
-		file = ft_strjoin(file, line);
-		file = ft_strjoin(file, "\n");
-	}
-	file = ft_strjoin(file, "\0");
-	return (file);
-}
-
-/*
 ** Create window and context function,
 ** initialize GLFW and GLEW supporting OpenGL 4
 */
@@ -68,106 +43,6 @@ int			ft_createwindow(GLFWwindow **window)
 	ft_putendl((char*)glGetString(GL_RENDERER));
 	ft_putstr("OpenGL version supported ");
 	ft_putendl((char*)glGetString(GL_VERSION));
-	return (0);
-}
-
-/*
-** Create vertex shader function
-*/
-
-int			ft_createvertexshader(uint *vertexshader)
-{
-	int			success;
-	const char	*vertexshadersource;
-	char		infolog[512];
-
-	*vertexshader = glCreateShader(GL_VERTEX_SHADER);
-	vertexshadersource = ft_filecpy("./shaders/vertexshader.vs");
-	glShaderSource(*vertexshader, 1, &vertexshadersource, NULL);
-	glCompileShader(*vertexshader);
-	glGetShaderiv(*vertexshader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(*vertexshader, 512, NULL, infolog);
-		ft_putstr("Failed to create vertex shader\n");
-		ft_putstr(infolog);
-		return (-1);
-	}
-	return (0);
-}
-
-/*
-** Create fragment shader function
-*/
-
-int			ft_createfragmentshader(uint *fragmentshader)
-{
-	const char	*fragmentshadersource;
-
-	*fragmentshader = glCreateShader(GL_FRAGMENT_SHADER);
-	fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs");
-	glShaderSource(*fragmentshader, 1, &fragmentshadersource, NULL);
-	glCompileShader(*fragmentshader);
-	return (0);
-}
-
-/*
-** Create a program from vertex and fragment shaders
-** and delete shaders once we've linked them into the program
-**
-** TODO : delete shader in !succes case
-*/
-
-int			ft_createshaderprogram(uint *shaderprogram,
-									uint *vertexshader, uint *fragmentshader)
-{
-	int		success;
-	char	infolog[512];
-
-	*shaderprogram = glCreateProgram();
-	glAttachShader(*shaderprogram, *vertexshader);
-	glAttachShader(*shaderprogram, *fragmentshader);
-	glLinkProgram(*shaderprogram);
-	glGetProgramiv(*shaderprogram, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetProgramInfoLog(*shaderprogram, 512, NULL, infolog);
-		ft_putstr("Failed to create shader program\n");
-		ft_putstr(infolog);
-		return (-1);
-	}
-	glDeleteShader(*vertexshader);
-	glDeleteShader(*fragmentshader);
-	return (0);
-}
-
-/*
-** TODO
-*/
-
-int			ft_createtexture(uint *texture, char *path)
-{
-	int				width;
-	int				height;
-	int				nrchannels;
-	unsigned char	*data;
-
-	glGenTextures(1, texture);
-	glBindTexture(GL_TEXTURE_2D, *texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	data = stbi_load(path, &width, &height, &nrchannels, 0);
-	if (!data)
-	{
-		ft_putstr("Failed to load texture\n");
-		return (-1);
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
-				0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(data);
 	return (0);
 }
 
@@ -267,16 +142,19 @@ t_mat4		ft_setprojectionmat4(float fov, float ratio, float near, float far)
 void		ft_setpvmmatrices(uint shaderprogram)
 {
 	t_mat4	model;
+	t_mat4	view;
 	t_mat4	projection;
 
 	ft_mat4set(&model, IDENTITY);
-	model = ft_mat4transform(model,
-							ft_vec3set(1.f, 1.f, 1.f),
-							ft_vec3set(0.f, -45.f, 0.f),
-							ft_vec3set(0.f, 0.f, -1.f));
-	model = ft_mat4transpose(model);
+	model = ft_mat4transpose(ft_mat4transform(model,
+											ft_vec3set(1.f, 1.f, 1.f),
+											ft_vec3set(0.f, 0.f, 0.f),
+											ft_vec3set(0.f, 0.f, 0.f)));
 	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "model"),
 											1, GL_FALSE, model.m);
+	view = ft_mat4transpose(ft_setviewmatrix());
+	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "view"),
+											1, GL_FALSE, view.m);
 	projection = ft_setprojectionmat4(FOV, WIDTH / (float)HEIGHT, NEAR, FAR);
 	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "projection"),
 											1, GL_FALSE, projection.m);
@@ -290,31 +168,28 @@ void		ft_setpvmmatrices(uint shaderprogram)
 int			main(void)
 {
 	GLFWwindow	*window;
-	uint		vertexshader;
-	uint		fragmentshader;
 	uint		shaderprogram;
 	uint		texture[2];
 	uint		vao;
+	t_env		*e;
 
+	e = ft_getenv();
 	if (ft_createwindow(&window)
-	|| ft_createtexture(&texture[0], "ressources/textures/STONE_TEXTURE.jpg")
-	|| ft_createtexture(&texture[1], "ressources/textures/SNOW_TEXTURE.jpg")
-	|| ft_createvertexshader(&vertexshader)
-	|| ft_createfragmentshader(&fragmentshader)
-	|| ft_createshaderprogram(&shaderprogram, &vertexshader, &fragmentshader))
+		|| ft_creatematerial(&shaderprogram, &texture[0]))
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	glUseProgram(shaderprogram);
-	glUniform1i(glGetUniformLocation(shaderprogram, "texture1"), 0);
-	glUniform1i(glGetUniformLocation(shaderprogram, "texture2"), 1);
-	ft_setpvmmatrices(shaderprogram);
 	ft_createvao(&vao);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 		&& !glfwWindowShouldClose(window))
 	{
+		e->time.currentframe = glfwGetTime();
+		e->time.delta = e->time.currentframe - e->time.lastframe;
+		e->time.lastframe = e->time.currentframe;
+		ft_processinput(window);
+		ft_setpvmmatrices(shaderprogram);
 		ft_draw(shaderprogram, texture, vao);
 		glfwSwapBuffers(window);
 	}

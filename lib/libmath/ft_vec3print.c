@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec3norm.c                                      :+:      :+:    :+:   */
+/*   ft_mat4print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/28 18:19:58 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/02/28 18:20:00 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/02/28 18:15:32 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:15:35 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@
 ** TODO
 */
 
-t_vec3	ft_vec3norm(t_vec3 vec)
+void	ft_vec3print(t_vec3 vec)
 {
-	int		i;
-	float	mag;
+	int i;
 
 	i = -1;
-	mag = ft_vec3magnitude(vec);
 	while (++i < 3)
-		vec.v[i] /= mag;
-	return (vec);
+		printf("vec[%d] = %f\n", i, vec.v[i]);
+	return ;
 }

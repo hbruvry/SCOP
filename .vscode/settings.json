@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "ratio": "c"
+        "ratio": "c",
+        "scop.h": "c",
+        "stb_image.h": "c",
+        "__node_handle": "c",
+        "libft.h": "c"
     }
 }

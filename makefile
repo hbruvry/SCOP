@@ -1,11 +1,11 @@
 NAME = scop
 
-GLFW_LOC = $(shell brew --prefix glfw)
-GLFW_INC = $(GLFW_LOC)/include
+GLFW_LOC =	$(shell brew --prefix glfw)
+GLFW_INC =	$(GLFW_LOC)/include
 GLFW_LINK = -L $(GLFW_LOC)/lib -lglfw
 
-GLEW_LOC = $(shell brew --prefix glew)
-GLEW_INC = $(GLEW_LOC)/include/
+GLEW_LOC =	$(shell brew --prefix glew)
+GLEW_INC =	$(GLEW_LOC)/include/
 GLEW_LINK = -L $(GLEW_LOC)/lib/ -lGLEW
 
 CC =		clang
@@ -14,9 +14,14 @@ CFLAGS =	-Wall -Wextra -Werror
 LIBFT =		lib/libft
 LIBMATH =	lib/libmath
 
-HEADERS = -I includes/ -I $(GLFW_INC) -I $(GLEW_INC)
+HEADERS = 	-I includes/ -I $(GLFW_INC) -I $(GLEW_INC)
 
-SRCS = sources/main.c \
+SRCS =		sources/ft_getenvironment.c \
+			sources/ft_processinput.c \
+			sources/ft_createtexture.c \
+			sources/ft_creatematerial.c \
+			sources/ft_setviewmatrix.c \
+			sources/main.c \
 
 OBJS =		$(SRCS:.c=.o)
 
