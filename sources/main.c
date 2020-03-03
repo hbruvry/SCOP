@@ -34,6 +34,9 @@ int			ft_createwindow(GLFWwindow **window)
 		return (-1);
 	}
 	glfwMakeContextCurrent(*window);
+	glfwSetCursorPosCallback(*window, ft_mousecallback);
+	glfwSetScrollCallback(*window, ft_scrollcallback);
+	glfwSetInputMode(*window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSwapInterval(1);
 	if (glewInit() != GLEW_OK)
 	{
@@ -141,10 +144,12 @@ t_mat4		ft_setprojectionmat4(float fov, float ratio, float near, float far)
 
 void		ft_setpvmmatrices(uint shaderprogram)
 {
+	t_env	*e;
 	t_mat4	model;
 	t_mat4	view;
 	t_mat4	projection;
 
+	e = ft_getenvironment();
 	ft_mat4set(&model, IDENTITY);
 	model = ft_mat4transpose(ft_mat4transform(model,
 											ft_vec3set(1.f, 1.f, 1.f),
@@ -155,7 +160,7 @@ void		ft_setpvmmatrices(uint shaderprogram)
 	view = ft_mat4transpose(ft_setviewmatrix());
 	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "view"),
 											1, GL_FALSE, view.m);
-	projection = ft_setprojectionmat4(FOV, WIDTH / (float)HEIGHT, NEAR, FAR);
+	projection = ft_setprojectionmat4(e->cam.fov, WIDTH / (float)HEIGHT, NEAR, FAR);
 	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "projection"),
 											1, GL_FALSE, projection.m);
 	return ;
@@ -173,7 +178,7 @@ int			main(void)
 	uint		vao;
 	t_env		*e;
 
-	e = ft_getenv();
+	e = ft_getenvironment();
 	if (ft_createwindow(&window)
 		|| ft_creatematerial(&shaderprogram, &texture[0]))
 	{

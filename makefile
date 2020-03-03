@@ -17,6 +17,8 @@ LIBMATH =	lib/libmath
 HEADERS = 	-I includes/ -I $(GLFW_INC) -I $(GLEW_INC)
 
 SRCS =		sources/ft_getenvironment.c \
+			sources/ft_mousecallback.c \
+			sources/ft_scrollcallback.c \
 			sources/ft_processinput.c \
 			sources/ft_createtexture.c \
 			sources/ft_creatematerial.c \

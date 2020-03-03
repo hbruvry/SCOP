@@ -28,26 +28,37 @@ typedef enum {true, false} bool;
 
 typedef struct	s_cam
 {
-	t_vec3	vpos;
-	t_vec3	vfront;
-	t_vec3  vup;
-	bool	target;
+	t_vec3		vpos;
+	t_vec3		vfront;
+	t_vec3  	vup;
+	t_vec3		vright;
+	t_vec3  	vdir;
+	t_vec3  	vtarget;
+	bool		target;
+	float		fov;
+	float		yaw;
+	float		pitch;
+	bool		firstmouse;
+	float		lastx;
+	float		lasty;
 }				t_cam;
 
 typedef struct	s_time
 {
-	float	currentframe;
-	float	lastframe;
-	float	delta;
+	float		currentframe;
+	float		lastframe;
+	float		delta;
 }				t_time;
 
 typedef struct	s_env
 {
-	t_cam	cam;
-	t_time	time;
+	t_cam		cam;
+	t_time		time;
 }				t_env;
 
-t_env			*ft_getenv(void);
+t_env			*ft_getenvironment(void);
+void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
+void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
 void			ft_processinput(GLFWwindow *window);
 int				ft_createtexture(uint *texture, char *path);
 int				ft_creatematerial(uint *shaderprogram, uint	*texture);

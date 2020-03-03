@@ -45,28 +45,20 @@ t_mat4	ft_setlookatmatrix(t_vec3 vcamright, t_vec3 vcamup, t_vec3 vcamdirection,
 ** TODO
 */
 
-t_mat4	ft_setviewmatrix()
+t_mat4	ft_setviewmatrix(void)
 {
-	t_env   *e;
-	float   radius;
-//	t_vec3  vcamposition;
-	t_vec3  vcamtarget;
-	t_vec3  vcamdirection;
-	t_vec3  vcamright;
-//	t_vec3  vcamup;
-	t_mat4  mat;
+	t_env	*e;
+	t_vec3	vup;
+	t_mat4	mat;
 
-	e = ft_getenv();
-	radius = 1.f;
-//	vcamposition = ft_vec3set(sin(glfwGetTime()) * radius, 0.f, cos(glfwGetTime()) * radius);
-	if (e->cam.target)
-        vcamtarget = ft_vec3set(0.f, 0.f, 0.f);
-    else
-        vcamtarget = ft_vec3add(e->cam.vpos, e->cam.vfront);
-	vcamdirection = ft_vec3norm(ft_vec3sub(e->cam.vpos, vcamtarget));
-	vcamright = ft_vec3norm(ft_vec3cross(e->cam.vup, vcamdirection));
-//	vcamup = ft_vec3norm(ft_vec3cross(vcamdirection, vcamright));
-	mat = ft_setlookatmatrix(vcamright, e->cam.vup, vcamdirection, e->cam.vpos);
+	e = ft_getenvironment();
+	vup = ft_vec3set(0.f, 1.f, 0.f);
+	if (e->cam.target == true)
+		e->cam.vdir = ft_vec3norm(ft_vec3sub(e->cam.vpos, e->cam.vtarget));
+	else
+		e->cam.vdir = ft_vec3norm(ft_vec3sub(e->cam.vpos, ft_vec3add(e->cam.vpos, e->cam.vfront)));
+	e->cam.vright = ft_vec3norm(ft_vec3cross(vup, e->cam.vdir));
+	e->cam.vup = ft_vec3cross(e->cam.vdir, e->cam.vright);
+	mat = ft_setlookatmatrix(e->cam.vright, e->cam.vup, e->cam.vdir, e->cam.vpos);
 	return (mat);
 }
-

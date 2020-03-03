@@ -16,9 +16,9 @@
 ** Create or return environment structure
 */
 
-t_env	*ft_getenv(void)
+t_env	*ft_getenvironment(void)
 {
-	static	t_env	*e = NULL;
+	static t_env	*e = NULL;
 
 	if (e == NULL)
 	{
@@ -28,8 +28,14 @@ t_env	*ft_getenv(void)
 		e->time.lastframe = 0.f;
 		e->cam.vpos = ft_vec3set(0.f, 0.f, 3.f);
 		e->cam.vfront = ft_vec3set(0.f, 0.f, -1.f);
-		e->cam.vup = ft_vec3set(0.f, 1.f, 0.f);
-		e->cam.target = false;
+		e->cam.vtarget = ft_vec3set(0.f, 0.f, 0.f);
+		e->cam.target = true;
+		e->cam.fov = FOV;
+		e->cam.yaw = -90.f;
+		e->cam.pitch = 0.f;
+		e->cam.firstmouse = true;
+		e->cam.lastx = WIDTH * 0.5f;
+		e->cam.lasty = HEIGHT * 0.5f;
 	}
 	return (e);
 }
