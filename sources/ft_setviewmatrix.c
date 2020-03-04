@@ -19,24 +19,26 @@
 ** [12][13][14][15]
 */
 
-t_mat4	ft_setlookatmatrix(t_vec3 vcamright, t_vec3 vcamup, t_vec3 vcamdirection, t_vec3 vcamposition)
+t_mat4	ft_setlookatmatrix(void)
 {
+	t_env	*e;
 	t_mat4	mat;
 	t_mat4	mtrans;
 
+	e = ft_getenvironment();
 	ft_bzero(&mat, 16 * sizeof(float));
-	mat.m[0] = vcamright.v[0];
-	mat.m[1] = vcamright.v[1];
-	mat.m[2] = vcamright.v[2];
-	mat.m[4] = vcamup.v[0];
-	mat.m[5] = vcamup.v[1];
-	mat.m[6] = vcamup.v[2];
-	mat.m[8] = vcamdirection.v[0];
-	mat.m[9] = vcamdirection.v[1];
-	mat.m[10] = vcamdirection.v[2];
+	mat.m[0] = e->cam.vright.v[0];
+	mat.m[1] = e->cam.vright.v[1];
+	mat.m[2] = e->cam.vright.v[2];
+	mat.m[4] = e->cam.vup.v[0];
+	mat.m[5] = e->cam.vup.v[1];
+	mat.m[6] = e->cam.vup.v[2];
+	mat.m[8] = e->cam.vdir.v[0];
+	mat.m[9] = e->cam.vdir.v[1];
+	mat.m[10] = e->cam.vdir.v[2];
 	mat.m[15] = 1.f;
 	ft_mat4set(&mtrans, IDENTITY);
-	mtrans = ft_mat4translate(mtrans, ft_vec3scalar(vcamposition, -1.f));
+	mtrans = ft_mat4translate(mtrans, ft_vec3scalar(e->cam.vpos, -1.f));
 	mat = ft_mat4mul(mat, mtrans);
 	return (mat);
 }
@@ -48,17 +50,16 @@ t_mat4	ft_setlookatmatrix(t_vec3 vcamright, t_vec3 vcamup, t_vec3 vcamdirection,
 t_mat4	ft_setviewmatrix(void)
 {
 	t_env	*e;
-	t_vec3	vup;
 	t_mat4	mat;
 
 	e = ft_getenvironment();
-	vup = ft_vec3set(0.f, 1.f, 0.f);
 	if (e->cam.target == true)
 		e->cam.vdir = ft_vec3norm(ft_vec3sub(e->cam.vpos, e->cam.vtarget));
 	else
-		e->cam.vdir = ft_vec3norm(ft_vec3sub(e->cam.vpos, ft_vec3add(e->cam.vpos, e->cam.vfront)));
-	e->cam.vright = ft_vec3norm(ft_vec3cross(vup, e->cam.vdir));
+		e->cam.vdir = ft_vec3norm(ft_vec3sub(e->cam.vpos,
+			ft_vec3add(e->cam.vpos, e->cam.vfront)));
+	e->cam.vright = ft_vec3norm(ft_vec3cross(e->vup, e->cam.vdir));
 	e->cam.vup = ft_vec3cross(e->cam.vdir, e->cam.vright);
-	mat = ft_setlookatmatrix(e->cam.vright, e->cam.vup, e->cam.vdir, e->cam.vpos);
+	mat = ft_setlookatmatrix();
 	return (mat);
 }

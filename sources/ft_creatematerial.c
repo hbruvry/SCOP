@@ -16,7 +16,7 @@
 ** File copy function
 */
 
-char	*ft_filecpy(char *path)
+static char	*ft_filecpy(char *path)
 {
 	int		fd;
 	int		ret;
@@ -41,7 +41,7 @@ char	*ft_filecpy(char *path)
 ** Create vertex shader function
 */
 
-int		ft_createvertexshader(uint *vertexshader)
+int			ft_createvertexshader(uint *vertexshader)
 {
 	int			success;
 	const char	*vertexshadersource;
@@ -66,7 +66,7 @@ int		ft_createvertexshader(uint *vertexshader)
 ** Create fragment shader function
 */
 
-int		ft_createfragmentshader(uint *fragmentshader)
+int			ft_createfragmentshader(uint *fragmentshader)
 {
 	const char	*fragmentshadersource;
 
@@ -84,7 +84,7 @@ int		ft_createfragmentshader(uint *fragmentshader)
 ** TODO : delete shader in !succes case
 */
 
-int		ft_createshaderprogram(uint *shaderprogram,
+int			ft_createshaderprogram(uint *shaderprogram,
 									uint *vertexshader, uint *fragmentshader)
 {
 	int		success;
@@ -111,7 +111,7 @@ int		ft_createshaderprogram(uint *shaderprogram,
 ** TODO
 */
 
-int		ft_creatematerial(uint *shaderprogram, uint *texture)
+int			ft_creatematerial(uint *shaderprogram, uint *texture)
 {
 	uint	vertexshader;
 	uint	fragmentshader;

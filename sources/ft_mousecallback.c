@@ -20,7 +20,6 @@ void	ft_mousecallback(GLFWwindow *window, double posx, double posy)
 {
 	float	offsetx;
 	float	offsety;
-	float	sensitivity;
 	t_env	*e;
 
 	glfwGetKey(window, GLFW_KEY_Z);
@@ -31,22 +30,16 @@ void	ft_mousecallback(GLFWwindow *window, double posx, double posy)
 		e->cam.lasty = posy;
 		e->cam.firstmouse = false;
 	}
-	offsetx = posx - e->cam.lastx;
-	offsety = e->cam.lasty - posy;
-	sensitivity = 0.025f;
+	offsetx = (posx - e->cam.lastx) * SENSI;
+	offsety = (e->cam.lasty - posy) * SENSI;
 	e->cam.lastx = posx;
 	e->cam.lasty = posy;
-	offsetx *= sensitivity;
-	offsety *= sensitivity;
 	e->cam.yaw += offsetx;
-	e->cam.pitch += offsety;
-	if (e->cam.pitch > 89.f)
-		e->cam.pitch = 89.f;
-	if (e->cam.pitch < -89.f)
-		e->cam.pitch = -89.f;
-	e->cam.vdir.v[0] = cos(e->cam.yaw * M_PI / 180.f) * cos(e->cam.pitch * M_PI / 180.f);
-	e->cam.vdir.v[1] = sin(e->cam.pitch * M_PI / 180.f);
-	e->cam.vdir.v[2] = sin(e->cam.yaw * M_PI / 180.f) * cos(e->cam.pitch * M_PI / 180.f);
-	e->cam.vfront = ft_vec3norm(e->cam.vdir);
+	if (-90.f < e->cam.pitch + offsetx && e->cam.pitch + offsetx < 90.f)
+		e->cam.pitch += offsety;
+	e->cam.vfront = ft_vec3norm(ft_vec3set(
+		cos(e->cam.yaw * M_PI / 180.f) * cos(e->cam.pitch * M_PI / 180.f),
+		sin(e->cam.pitch * M_PI / 180.f),
+		sin(e->cam.yaw * M_PI / 180.f) * cos(e->cam.pitch * M_PI / 180.f)));
 	return ;
 }

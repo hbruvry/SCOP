@@ -17,7 +17,7 @@
 ** initialize GLFW and GLEW supporting OpenGL 4
 */
 
-int			ft_createwindow(GLFWwindow **window)
+int		ft_createwindow(GLFWwindow **window)
 {
 	if (!glfwInit())
 	{
@@ -34,9 +34,6 @@ int			ft_createwindow(GLFWwindow **window)
 		return (-1);
 	}
 	glfwMakeContextCurrent(*window);
-	glfwSetCursorPosCallback(*window, ft_mousecallback);
-	glfwSetScrollCallback(*window, ft_scrollcallback);
-	glfwSetInputMode(*window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSwapInterval(1);
 	if (glewInit() != GLEW_OK)
 	{
@@ -58,7 +55,7 @@ int			ft_createwindow(GLFWwindow **window)
 ** used to decide what vertices to draw
 */
 
-void		ft_createvao(uint *vao)
+void	ft_createvao(uint *vao)
 {
 	uint	vbo;
 	uint	ebo;
@@ -101,7 +98,7 @@ void		ft_createvao(uint *vao)
 ** TODO
 */
 
-void		ft_draw(uint shaderprogram, uint *texture, uint vao)
+void	ft_draw(uint shaderprogram, uint *texture, uint vao)
 {
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -123,7 +120,7 @@ void		ft_draw(uint shaderprogram, uint *texture, uint vao)
 ** [12][13][14][15]
 */
 
-t_mat4		ft_setprojectionmat4(float fov, float ratio, float near, float far)
+t_mat4	ft_setprojectionmat4(float fov, float ratio, float near, float far)
 {
 	t_mat4	mat;
 	float	tanhalffov;
@@ -142,7 +139,7 @@ t_mat4		ft_setprojectionmat4(float fov, float ratio, float near, float far)
 ** TODO
 */
 
-void		ft_setpvmmatrices(uint shaderprogram)
+void	ft_setpvmmatrices(uint shaderprogram)
 {
 	t_env	*e;
 	t_mat4	model;
@@ -152,17 +149,18 @@ void		ft_setpvmmatrices(uint shaderprogram)
 	e = ft_getenvironment();
 	ft_mat4set(&model, IDENTITY);
 	model = ft_mat4transpose(ft_mat4transform(model,
-											ft_vec3set(1.f, 1.f, 1.f),
-											ft_vec3set(0.f, 0.f, 0.f),
-											ft_vec3set(0.f, 0.f, 0.f)));
+		ft_vec3set(1.f, 1.f, 1.f),
+		ft_vec3set(0.f, 0.f, 0.f),
+		ft_vec3set(0.f, 0.f, 0.f)));
 	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "model"),
-											1, GL_FALSE, model.m);
+		1, GL_FALSE, model.m);
 	view = ft_mat4transpose(ft_setviewmatrix());
 	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "view"),
-											1, GL_FALSE, view.m);
-	projection = ft_setprojectionmat4(e->cam.fov, WIDTH / (float)HEIGHT, NEAR, FAR);
+		1, GL_FALSE, view.m);
+	projection = ft_setprojectionmat4(e->cam.fov,
+		WIDTH / (float)HEIGHT, NEAR, FAR);
 	glUniformMatrix4fv(glGetUniformLocation(shaderprogram, "projection"),
-											1, GL_FALSE, projection.m);
+		1, GL_FALSE, projection.m);
 	return ;
 }
 
@@ -170,7 +168,7 @@ void		ft_setpvmmatrices(uint shaderprogram)
 ** TODO
 */
 
-int			main(void)
+int		main(void)
 {
 	GLFWwindow	*window;
 	uint		shaderprogram;
@@ -186,6 +184,10 @@ int			main(void)
 		exit(EXIT_FAILURE);
 	}
 	ft_createvao(&vao);
+	ft_parseobject("./objs/teapot.obj");
+	glfwSetCursorPosCallback(window, ft_mousecallback);
+	glfwSetScrollCallback(window, ft_scrollcallback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 		&& !glfwWindowShouldClose(window))

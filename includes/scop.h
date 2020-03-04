@@ -23,6 +23,8 @@
 # define HEIGHT	360
 # define NEAR	0.1
 # define FAR	100
+# define SPEED	5
+# define SENSI	0.025
 
 typedef enum {true, false} bool;
 
@@ -54,9 +56,11 @@ typedef struct	s_env
 {
 	t_cam		cam;
 	t_time		time;
+	t_vec3		vup;
 }				t_env;
 
 t_env			*ft_getenvironment(void);
+void			ft_parseobject(char *objdata);
 void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
 void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
 void			ft_processinput(GLFWwindow *window);
