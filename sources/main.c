@@ -183,6 +183,7 @@ int		main(void)
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
+	printf("float = %f\n", ft_atof("0.55156"));
 	ft_createvao(&vao);
 	ft_parseobject("./objs/teapot.obj");
 	glfwSetCursorPosCallback(window, ft_mousecallback);
