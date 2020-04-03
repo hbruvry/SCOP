@@ -183,9 +183,8 @@ int		main(void)
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	printf("float = %f\n", ft_atof("0.55156"));
 	ft_createvao(&vao);
-	ft_parseobject("./objs/teapot.obj");
+	ft_parseobject("./resources/objs/cube.obj");
 	glfwSetCursorPosCallback(window, ft_mousecallback);
 	glfwSetScrollCallback(window, ft_scrollcallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

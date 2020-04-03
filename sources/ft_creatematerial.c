@@ -48,7 +48,11 @@ int			ft_createvertexshader(uint *vertexshader)
 	char		infolog[512];
 
 	*vertexshader = glCreateShader(GL_VERTEX_SHADER);
-	vertexshadersource = ft_filecpy("./shaders/vertexshader.vs");
+	if(!(vertexshadersource = ft_filecpy("./shaders/vertexshader.vs")))
+	{
+		ft_putstr("Failed to load vertex shader\n");
+		return (-1);
+	}
 	glShaderSource(*vertexshader, 1, &vertexshadersource, NULL);
 	glCompileShader(*vertexshader);
 	glGetShaderiv(*vertexshader, GL_COMPILE_STATUS, &success);
@@ -71,7 +75,11 @@ int			ft_createfragmentshader(uint *fragmentshader)
 	const char	*fragmentshadersource;
 
 	*fragmentshader = glCreateShader(GL_FRAGMENT_SHADER);
-	fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs");
+	if(!(fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs")))
+	{
+		ft_putstr("Failed to load fragment shader\n");
+		return (-1);
+	}
 	glShaderSource(*fragmentshader, 1, &fragmentshadersource, NULL);
 	glCompileShader(*fragmentshader);
 	return (0);
@@ -116,8 +124,8 @@ int			ft_creatematerial(uint *shaderprogram, uint *texture)
 	uint	vertexshader;
 	uint	fragmentshader;
 
-	if (ft_createtexture(texture, "ressources/textures/STONE_TEXTURE.jpg")
-	|| ft_createtexture(texture + 1, "ressources/textures/SNOW_TEXTURE.jpg")
+	if (ft_createtexture(texture, "resources/textures/STONE_TEXTURE.jpg")
+	|| ft_createtexture(texture + 1, "resources/textures/SNOW_TEXTURE.jpg")
 	|| ft_createvertexshader(&vertexshader)
 	|| ft_createfragmentshader(&fragmentshader)
 	|| ft_createshaderprogram(shaderprogram, &vertexshader, &fragmentshader))

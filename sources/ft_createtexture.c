@@ -36,8 +36,7 @@ int		ft_createtexture(uint *texture, char *path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	data = stbi_load(path, &width, &height, &nrchannels, 0);
-	if (!data)
+	if (!(data = stbi_load(path, &width, &height, &nrchannels, 0)))
 	{
 		ft_putstr("Failed to load texture\n");
 		return (-1);

@@ -52,15 +52,24 @@ typedef struct	s_time
 	float		delta;
 }				t_time;
 
+typedef struct  s_obj
+{
+    t_vec3      *verticies;
+    t_vec3      *uvs;
+    t_vec3      *normals;
+    int         **triangles;
+}               t_obj;
+
 typedef struct	s_env
 {
 	t_cam		cam;
 	t_time		time;
+    t_obj		obj;
 	t_vec3		vup;
 }				t_env;
 
 t_env			*ft_getenvironment(void);
-void			ft_parseobject(char *objdata);
+int			    ft_parseobject(char *objdata);
 void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
 void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
 void			ft_processinput(GLFWwindow *window);
