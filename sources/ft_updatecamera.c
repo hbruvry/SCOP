@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenvironment.c                                :+:      :+:    :+:   */
+/*   ft_updatecamera.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,38 +12,19 @@
 
 #include "includes/scop.h"
 
-void	ft_setenvironmentcamera(t_cam *cam)
+void    ft_updatecamera(t_cam *cam)
 {
-	cam->vup = ft_vec3set(0.f, 1.f, 0.f);
-	cam->vpos = ft_vec3set(0.f, 0.f, 4.f);
-	cam->vfront = ft_vec3set(0.f, 0.f, -1.f);
-	cam->vtarget = ft_vec3set(0.f, 0.f, 0.f);
-	cam->target = false;
-	cam->fov = FOV;
-	cam->yaw = -90.f;
-	cam->pitch = 0.f;
-	cam->firstmouse = true;
-	cam->lastx = WIDTH * 0.5f;
-	cam->lasty = HEIGHT * 0.5f;
-	return ;
-}
+    t_vec3  vup;
 
-t_env	*ft_getenvironment(void)
-{
-	static t_env	*e = NULL;
-
-	if (e == NULL)
-	{
-		if (!(e = ft_memalloc(sizeof(t_env))))
-			return (NULL);
-		e->window = NULL;
-		e->vertexarrayid = 0;
-		e->shaderprogramid = 0;
-		e->vertexbuffer = 0;
-		e->colorbuffer = 0;
-		ft_setenvironmentcamera(&(e->cam));
-		e->time.delta = 0.f;
-		e->time.lastframe = 0.f;
-	}
-	return (e);
+    vup = ft_vec3set(0.f, 1.f, 0.f);
+	/*
+	if (cam->target == true)
+		cam->vdir = ft_vec3norm(ft_vec3sub(cam->vpos, cam->vtarget));
+	else
+	*/
+	cam->vdir = ft_vec3norm(ft_vec3sub(cam->vpos,
+		ft_vec3add(cam->vpos, cam->vfront)));
+	cam->vright = ft_vec3norm(ft_vec3cross(vup, cam->vdir));
+	cam->vup = ft_vec3cross(cam->vdir, cam->vright);
+	return ;   
 }

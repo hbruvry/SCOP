@@ -16,15 +16,11 @@ LIBMATH =	lib/libmath
 
 HEADERS = 	-I includes/ -I $(GLFW_INC) -I $(GLEW_INC)
 
-SRCS =		sources/ft_getenvironment.c \
-			sources/ft_parseobject.c \
-			sources/ft_mousecallback.c \
-			sources/ft_scrollcallback.c \
-			sources/ft_processinput.c \
-			sources/ft_createtexture.c \
-			sources/ft_creatematerial.c \
-			sources/ft_setviewmatrix.c \
-			sources/main.c \
+SRCS =		sources/main.c \
+			sources/ft_getenvironment.c \
+			sources/ft_createshaderprogram.c \
+			sources/ft_updatecamera.c \
+			sources/ft_setpvmmatrices.c \
 
 OBJS =		$(SRCS:.c=.o)
 

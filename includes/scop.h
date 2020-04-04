@@ -18,9 +18,12 @@
 # include "lib/libft/libft.h"
 # include "lib/libmath/libmath.h"
 
-# define FOV	90
 # define WIDTH	480
 # define HEIGHT	360
+# define FRAGPATH "./shaders/fragmentshadercolor.fs"
+# define VERTPATH "./shaders/vertexshadermodel.vs"
+
+# define FOV	90
 # define NEAR	0.1
 # define FAR	100
 # define SPEED	5
@@ -52,29 +55,20 @@ typedef struct	s_time
 	float		delta;
 }				t_time;
 
-typedef struct  s_obj
-{
-    t_vec3      *verticies;
-    t_vec3      *uvs;
-    t_vec3      *normals;
-    int         **triangles;
-}               t_obj;
-
 typedef struct	s_env
 {
-	t_cam		cam;
-	t_time		time;
-    t_obj		obj;
-	t_vec3		vup;
+	GLFWwindow	*window;
+	GLuint		vertexarrayid;
+	GLuint		shaderprogramid;
+	GLuint		vertexbuffer;
+    GLuint		colorbuffer;
+    t_cam		cam;
+    t_time		time;
 }				t_env;
 
 t_env			*ft_getenvironment(void);
-int			    ft_parseobject(char *objdata);
-void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
-void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
-void			ft_processinput(GLFWwindow *window);
-int				ft_createtexture(uint *texture, char *path);
-int				ft_creatematerial(uint *shaderprogram, uint	*texture);
-t_mat4			ft_setviewmatrix();
+int			    ft_createshaderprogram(GLuint *shaderprogramid);
+void            ft_updatecamera(t_cam *cam);
+void	        ft_setpvmmatrices(t_cam cam);
 
 #endif
