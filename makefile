@@ -22,6 +22,9 @@ SRCS =		sources/main.c \
 			sources/ft_updatecamera.c \
 			sources/ft_setpvmmatrices.c \
 			sources/ft_settexture.c \
+			sources/ft_mousecallback.c \
+			sources/ft_scrollcallback.c \
+			sources/ft_processinput.c \
 
 OBJS =		$(SRCS:.c=.o)
 

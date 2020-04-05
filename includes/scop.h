@@ -64,14 +64,17 @@ typedef struct	s_env
     GLuint		colorbuffer;
 	GLuint		uvbuffer;
     t_cam		cam;
+	t_cam		camreset;
     t_time		time;
 }				t_env;
 
 t_env			*ft_getenvironment(void);
 int			    ft_createshaderprogram(GLuint *shaderprogramid);
+GLuint			ft_setbmptexture(void);
+void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
+void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
+void			ft_processinput(GLFWwindow *window);
 void            ft_updatecamera(t_cam *cam);
 void	        ft_setpvmmatrices(t_cam cam);
-GLuint			ft_setbmptexture(void);
-GLuint			ft_setstbitexture(void);
 
 #endif

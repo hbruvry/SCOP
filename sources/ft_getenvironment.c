@@ -43,6 +43,7 @@ t_env	*ft_getenvironment(void)
 		e->colorbuffer = 0;
 		e->uvbuffer = 0;
 		ft_setenvironmentcamera(&(e->cam));
+		ft_setenvironmentcamera(&(e->camreset));
 		e->time.delta = 0.f;
 		e->time.lastframe = 0.f;
 	}

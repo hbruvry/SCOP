@@ -234,12 +234,15 @@ int		main(void)
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
+	glfwSetCursorPosCallback(e->window, ft_mousecallback);
+	glfwSetScrollCallback(e->window, ft_scrollcallback);
+	glfwSetInputMode(e->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetInputMode(e->window, GLFW_STICKY_KEYS, GL_TRUE);
 	glClearColor(0.8f, 0.8f, 0.8f, 1.f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+	glEnable(GL_CULL_FACE);
 	texture = ft_setbmptexture();
-//	texture = ft_setstbitexture();
 	textureid = glGetUniformLocation(e->shaderprogramid, "myTextureSampler");
 	ft_createvao(&(e->vertexarrayid));
 	ft_createvbo(&(e->vertexbuffer), &(e->colorbuffer), &(e->uvbuffer));
@@ -248,6 +251,7 @@ int		main(void)
 			&& !glfwWindowShouldClose(e->window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		ft_processinput(e->window);
 		ft_updatecamera(&(e->cam));
 		ft_setpvmmatrices(e->cam);
 		glUseProgram(e->shaderprogramid);

@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_updatecamera.c                                  :+:      :+:    :+:   */
+/*   ft_scrollcallback.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/02 16:06:38 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/03/02 16:17:20 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/03/03 11:54:04 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/03/03 11:54:06 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/scop.h"
 
-void    ft_updatecamera(t_cam *cam)
-{
-    t_vec3  vup;
+/*
+** TODO
+*/
 
-    vup = ft_vec3set(0.f, 1.f, 0.f);
-	if (cam->target == true)
-		cam->vdir = ft_vec3norm(ft_vec3sub(cam->vpos, cam->vtarget));
-	else
-		cam->vdir = ft_vec3norm(ft_vec3sub(cam->vpos,
-			ft_vec3add(cam->vpos, cam->vfront)));
-	cam->vright = ft_vec3norm(ft_vec3cross(vup, cam->vdir));
-	cam->vup = ft_vec3cross(cam->vdir, cam->vright);
-	return ;   
+void	ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety)
+{
+	t_env	*e;
+
+	(void)offsetx;
+	glfwGetKey(window, GLFW_KEY_Z);
+	e = ft_getenvironment();
+	if (1.0f < e->cam.fov && e->cam.fov < 45.f)
+		e->cam.fov -= offsety;
+	else if (e->cam.fov <= 1.f)
+		e->cam.fov = 1.f;
+	else if (e->cam.fov >= 1.f)
+		e->cam.fov = 45.f;
+	return ;
 }
