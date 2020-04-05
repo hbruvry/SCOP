@@ -62,7 +62,7 @@ int		ft_createvao(GLuint *vertexarrayid)
 ** TODO
 */
 
-int		ft_createvbo(GLuint *vertexbuffer, GLuint *colorbuffer)
+int		ft_createvbo(GLuint *vertexbuffer, GLuint *colorbuffer, GLuint *uvbuffer)
 {
 	GLfloat	vertexbufferdata[] = {
 		-1.f, -1.f, -1.f,
@@ -140,13 +140,54 @@ int		ft_createvbo(GLuint *vertexbuffer, GLuint *colorbuffer)
 		0.820f,  0.883f,  0.371f,
 		0.982f,  0.099f,  0.879f
 	};
+	GLfloat uvbufferdata[] = { 
+		0.000059f, 1.0f - 0.000004f, 
+		0.000103f, 1.0f - 0.336048f, 
+		0.335973f, 1.0f - 0.335903f, 
+		1.000023f, 1.0f - 0.000013f, 
+		0.667979f, 1.0f - 0.335851f, 
+		0.999958f, 1.0f - 0.336064f, 
+		0.667979f, 1.0f - 0.335851f, 
+		0.336024f, 1.0f - 0.671877f, 
+		0.667969f, 1.0f - 0.671889f, 
+		1.000023f, 1.0f - 0.000013f, 
+		0.668104f, 1.0f - 0.000013f, 
+		0.667979f, 1.0f - 0.335851f, 
+		0.000059f, 1.0f - 0.000004f, 
+		0.335973f, 1.0f - 0.335903f, 
+		0.336098f, 1.0f - 0.000071f, 
+		0.667979f, 1.0f - 0.335851f, 
+		0.335973f, 1.0f - 0.335903f, 
+		0.336024f, 1.0f - 0.671877f, 
+		1.000004f, 1.0f - 0.671847f, 
+		0.999958f, 1.0f - 0.336064f, 
+		0.667979f, 1.0f - 0.335851f, 
+		0.668104f, 1.0f - 0.000013f, 
+		0.335973f, 1.0f - 0.335903f, 
+		0.667979f, 1.0f - 0.335851f, 
+		0.335973f, 1.0f - 0.335903f, 
+		0.668104f, 1.0f - 0.000013f, 
+		0.336098f, 1.0f - 0.000071f, 
+		0.000103f, 1.0f - 0.336048f, 
+		0.000004f, 1.0f - 0.671870f, 
+		0.336024f, 1.0f - 0.671877f, 
+		0.000103f, 1.0f - 0.336048f, 
+		0.336024f, 1.0f - 0.671877f, 
+		0.335973f, 1.0f - 0.335903f, 
+		0.667969f, 1.0f - 0.671889f, 
+		1.000004f, 1.0f - 0.671847f, 
+		0.667979f, 1.0f - 0.335851f
+	};	
 
 	glGenBuffers(1, vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexbufferdata), vertexbufferdata, GL_STATIC_DRAW);
 	glGenBuffers(1, colorbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *colorbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexbufferdata), colorbufferdata, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(colorbufferdata), colorbufferdata, GL_STATIC_DRAW);
+	glGenBuffers(1, uvbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, *uvbuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(uvbufferdata), uvbufferdata, GL_STATIC_DRAW);
     ft_putendl("Vertex buffer object created");
 	return (0);
 }
@@ -167,9 +208,13 @@ void	ft_drawvertexbuffer()
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, e->colorbuffer);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, e->uvbuffer);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	return ;
 }
 
@@ -180,6 +225,8 @@ void	ft_drawvertexbuffer()
 int		main(void)
 {
 	t_env   *e;
+	GLuint	texture;
+	GLuint	textureid;
 
 	e = ft_getenvironment();
 	if (ft_createwindow(&(e->window)))
@@ -191,8 +238,11 @@ int		main(void)
 	glClearColor(0.8f, 0.8f, 0.8f, 1.f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+	texture = ft_setbmptexture();
+//	texture = ft_setstbitexture();
+	textureid = glGetUniformLocation(e->shaderprogramid, "myTextureSampler");
 	ft_createvao(&(e->vertexarrayid));
-	ft_createvbo(&(e->vertexbuffer), &(e->colorbuffer));
+	ft_createvbo(&(e->vertexbuffer), &(e->colorbuffer), &(e->uvbuffer));
 	ft_createshaderprogram(&(e->shaderprogramid));
 	while (glfwGetKey(e->window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 			&& !glfwWindowShouldClose(e->window))
@@ -201,6 +251,9 @@ int		main(void)
 		ft_updatecamera(&(e->cam));
 		ft_setpvmmatrices(e->cam);
 		glUseProgram(e->shaderprogramid);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glUniform1i(textureid, 0);	
 		ft_drawvertexbuffer();
 		glfwSwapBuffers(e->window);
 		glfwPollEvents();

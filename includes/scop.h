@@ -62,6 +62,7 @@ typedef struct	s_env
 	GLuint		shaderprogramid;
 	GLuint		vertexbuffer;
     GLuint		colorbuffer;
+	GLuint		uvbuffer;
     t_cam		cam;
     t_time		time;
 }				t_env;
@@ -70,5 +71,7 @@ t_env			*ft_getenvironment(void);
 int			    ft_createshaderprogram(GLuint *shaderprogramid);
 void            ft_updatecamera(t_cam *cam);
 void	        ft_setpvmmatrices(t_cam cam);
+GLuint			ft_setbmptexture(void);
+GLuint			ft_setstbitexture(void);
 
 #endif

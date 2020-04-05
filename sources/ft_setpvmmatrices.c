@@ -76,7 +76,7 @@ void	ft_setpvmmatrices(t_cam cam)
 	ft_mat4set(&modelmat, IDENTITY);
 	modelmat = ft_mat4transpose(ft_mat4transform(modelmat,
 		ft_vec3set(1.f, 1.f, 1.f),
-		ft_vec3set(M_PI / 6, M_PI / 3, 0.f),
+		ft_vec3set(-M_PI / 4, M_PI / 3, M_PI / 3),
 		ft_vec3set(0.f, 0.f, 0.f)));
 	viewmat = ft_mat4transpose(ft_setlookatmatrix(cam));
 	projectionmat = ft_setprojectionmat4(cam.fov,

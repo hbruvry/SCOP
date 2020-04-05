@@ -16,7 +16,7 @@
 ** File copy function
 */
 
-static char	*ft_filecpy(char *path)
+char		*ft_filecpy(char *path)
 {
 	int		fd;
 	int		ret;

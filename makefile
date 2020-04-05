@@ -21,6 +21,7 @@ SRCS =		sources/main.c \
 			sources/ft_createshaderprogram.c \
 			sources/ft_updatecamera.c \
 			sources/ft_setpvmmatrices.c \
+			sources/ft_settexture.c \
 
 OBJS =		$(SRCS:.c=.o)
 
