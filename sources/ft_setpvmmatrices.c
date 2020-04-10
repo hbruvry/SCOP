@@ -64,14 +64,11 @@ t_mat4	ft_setprojectionmat4(float fov, float ratio, float near, float far)
 ** TODO
 */
 
-void	ft_setpvmmatrices(t_cam cam)
+void	ft_setpvmmatrices(t_cam cam, GLuint *shaderprogramid)
 {
-	t_env	*e;
 	t_mat4	modelmat;
 	t_mat4	viewmat;
 	t_mat4	projectionmat;
-
-	e = ft_getenvironment();
 
 	ft_mat4set(&modelmat, IDENTITY);
 	modelmat = ft_mat4transpose(ft_mat4transform(modelmat,
@@ -81,11 +78,11 @@ void	ft_setpvmmatrices(t_cam cam)
 	viewmat = ft_mat4transpose(ft_setlookatmatrix(cam));
 	projectionmat = ft_setprojectionmat4(cam.fov,
 		WIDTH / (float)HEIGHT, NEAR, FAR);
-    glUniformMatrix4fv(glGetUniformLocation(e->shaderprogramid, "projection"),
+    glUniformMatrix4fv(glGetUniformLocation(*shaderprogramid, "projection"),
 		1, GL_FALSE, projectionmat.m);
-	glUniformMatrix4fv(glGetUniformLocation(e->shaderprogramid, "view"),
+	glUniformMatrix4fv(glGetUniformLocation(*shaderprogramid, "view"),
 		1, GL_FALSE, viewmat.m);
-	glUniformMatrix4fv(glGetUniformLocation(e->shaderprogramid, "model"),
+	glUniformMatrix4fv(glGetUniformLocation(*shaderprogramid, "model"),
 		1, GL_FALSE, modelmat.m);
 	return ;
 }

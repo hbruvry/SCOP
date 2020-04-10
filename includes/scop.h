@@ -31,14 +31,24 @@
 
 typedef enum {true, false} bool;
 
+typedef struct	s_ogl
+{
+	GLFWwindow	*window;
+	GLuint		vertexarrayid;
+	GLuint		shaderprogramid;
+	GLuint		vertexbuffer;
+	GLuint		colorbuffer;
+	GLuint		uvbuffer;
+}				t_ogl;
+
 typedef struct	s_cam
 {
 	t_vec3		vpos;
 	t_vec3		vfront;
-	t_vec3  	vup;
+	t_vec3		vup;
 	t_vec3		vright;
-	t_vec3  	vdir;
-	t_vec3  	vtarget;
+	t_vec3		vdir;
+	t_vec3		vtarget;
 	bool		target;
 	float		fov;
 	float		yaw;
@@ -57,24 +67,19 @@ typedef struct	s_time
 
 typedef struct	s_env
 {
-	GLFWwindow	*window;
-	GLuint		vertexarrayid;
-	GLuint		shaderprogramid;
-	GLuint		vertexbuffer;
-    GLuint		colorbuffer;
-	GLuint		uvbuffer;
-    t_cam		cam;
+	t_cam		cam;
 	t_cam		camreset;
-    t_time		time;
+	t_time		time;
 }				t_env;
 
+t_ogl			*ft_getopengl(void);
 t_env			*ft_getenvironment(void);
-int			    ft_createshaderprogram(GLuint *shaderprogramid);
+int				ft_createshaderprogram(GLuint *shaderprogramid);
 GLuint			ft_setbmptexture(void);
 void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
 void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
 void			ft_processinput(GLFWwindow *window);
-void            ft_updatecamera(t_cam *cam);
-void	        ft_setpvmmatrices(t_cam cam);
+void			ft_updatecamera(t_cam *cam);
+void			ft_setpvmmatrices(t_cam cam, GLuint *shaderprogramid);
 
 #endif

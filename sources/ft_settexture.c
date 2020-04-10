@@ -30,13 +30,6 @@ int				ft_getsizefrombmp(FILE *file, int *width, int *height, int *imagesize)
 	*height = *(int*)&(header[0x16]);
 	if (!(*imagesize = *(int*)&(header[0x22])))
 		*imagesize = (*width) * (*height) * 3;
-	ft_putstr("width = ");
-	ft_putnbr(*width);
-	ft_putstr(";\nheight = ");
-	ft_putnbr(*height);
-	ft_putstr(";\nsize = ");
-	ft_putnbr(*imagesize);
-	ft_putstr(";\n");
 	return (0);
 }
 

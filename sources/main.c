@@ -199,17 +199,17 @@ int		ft_createvbo(GLuint *vertexbuffer, GLuint *colorbuffer, GLuint *uvbuffer)
 
 void	ft_drawvertexbuffer()
 {
-	t_env   *e;
+	t_ogl	*o;
 
-	e = ft_getenvironment();
+	o = ft_getopengl();
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, e->vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, o->vertexbuffer);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, e->colorbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, o->colorbuffer);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, e->uvbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, o->uvbuffer);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
 	glDisableVertexAttribArray(0);
@@ -224,47 +224,49 @@ void	ft_drawvertexbuffer()
 
 int		main(void)
 {
+	t_ogl	*o;
 	t_env   *e;
 	GLuint	texture;
 	GLuint	textureid;
 
+	o = ft_getopengl();
 	e = ft_getenvironment();
-	if (ft_createwindow(&(e->window)))
+	if (ft_createwindow(&(o->window)))
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	glfwSetCursorPosCallback(e->window, ft_mousecallback);
-	glfwSetScrollCallback(e->window, ft_scrollcallback);
-	glfwSetInputMode(e->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetInputMode(e->window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetCursorPosCallback(o->window, ft_mousecallback);
+	glfwSetScrollCallback(o->window, ft_scrollcallback);
+	glfwSetInputMode(o->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(o->window, GLFW_STICKY_KEYS, GL_TRUE);
 	glClearColor(0.8f, 0.8f, 0.8f, 1.f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
+	ft_createvao(&(o->vertexarrayid));
+	ft_createvbo(&(o->vertexbuffer), &(o->colorbuffer), &(o->uvbuffer));
+	ft_createshaderprogram(&(o->shaderprogramid));
 	texture = ft_setbmptexture();
-	textureid = glGetUniformLocation(e->shaderprogramid, "myTextureSampler");
-	ft_createvao(&(e->vertexarrayid));
-	ft_createvbo(&(e->vertexbuffer), &(e->colorbuffer), &(e->uvbuffer));
-	ft_createshaderprogram(&(e->shaderprogramid));
-	while (glfwGetKey(e->window, GLFW_KEY_ESCAPE) != GLFW_PRESS
-			&& !glfwWindowShouldClose(e->window))
+	textureid = glGetUniformLocation(o->shaderprogramid, "myTextureSampler");
+	while (glfwGetKey(o->window, GLFW_KEY_ESCAPE) != GLFW_PRESS
+			&& !glfwWindowShouldClose(o->window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		ft_processinput(e->window);
+		ft_processinput(o->window);
 		ft_updatecamera(&(e->cam));
-		ft_setpvmmatrices(e->cam);
-		glUseProgram(e->shaderprogramid);
+		ft_setpvmmatrices(e->cam, &(o->shaderprogramid));
+		glUseProgram(o->shaderprogramid);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glUniform1i(textureid, 0);	
 		ft_drawvertexbuffer();
-		glfwSwapBuffers(e->window);
+		glfwSwapBuffers(o->window);
 		glfwPollEvents();
 	}
-	glDeleteVertexArrays(1, &(e->vertexarrayid));
-	glDeleteBuffers(1, &(e->vertexbuffer));
-	glDeleteProgram(e->shaderprogramid);
+	glDeleteVertexArrays(1, &(o->vertexarrayid));
+	glDeleteBuffers(1, &(o->vertexbuffer));
+	glDeleteProgram(o->shaderprogramid);
 	glfwTerminate();
     ft_putendl("Delete VBO\nDelete VAO\nExit program");
 	exit(EXIT_SUCCESS);
