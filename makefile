@@ -47,7 +47,7 @@ $(NAME): $(OBJS)
 clean:
 	@$(MAKE) clean -C $(LIBFT)
 	@$(MAKE) clean -C $(LIBMATH)
-	@/bin/rm -rf $(OBJDIR)
+	@rm -f $(OBJS)
 	@printf "libft cleaned\n"
 	@printf "libmath cleaned\n"
 	@printf "scop cleaned\n"
@@ -55,7 +55,7 @@ clean:
 fclean: clean
 	@$(MAKE) fclean -C $(LIBFT)
 	@$(MAKE) fclean -C $(LIBMATH)
-	@/bin/rm -f $(NAME)
+	@rm -f $(NAME)
 	@printf "scop fcleaned\n"
 
 re: fclean all
