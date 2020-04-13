@@ -19,13 +19,15 @@ HEADERS = 	-I includes/ -I $(GLFW_INC) -I $(GLEW_INC)
 SRCS =		sources/main.c \
 			sources/ft_getopengl.c \
 			sources/ft_getenvironment.c \
-			sources/ft_createshaderprogram.c \
+			sources/ft_setshaderprogram.c \
 			sources/ft_updatecamera.c \
 			sources/ft_setpvmmatrices.c \
 			sources/ft_settexture.c \
+			sources/ft_parseobject.c \
 			sources/ft_mousecallback.c \
 			sources/ft_scrollcallback.c \
 			sources/ft_processinput.c \
+			sources/ft_drawscop.c \
 
 OBJS =		$(SRCS:.c=.o)
 

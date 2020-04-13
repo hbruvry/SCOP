@@ -26,6 +26,7 @@ t_ogl	*ft_getopengl(void)
 		o->vertexbuffer = 0;
 		o->colorbuffer = 0;
 		o->uvbuffer = 0;
+		o->elementbuffer = 0;
 	}
 	return (o);
 }

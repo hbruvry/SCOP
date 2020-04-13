@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_createshaderprogram.c                           :+:      :+:    :+:   */
+/*   ft_setshaderprogram.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -41,7 +41,7 @@ char		*ft_filecpy(char *path)
 ** TODO
 */
 
-int			ft_createvertexshader(uint *vertexshaderid)
+int			ft_setvertexshader(uint *vertexshaderid)
 {
 	GLint		success;
 	const char	*vertexshadersource;
@@ -73,7 +73,7 @@ int			ft_createvertexshader(uint *vertexshaderid)
 ** TODO
 */
 
-int			ft_createfragmentshader(uint *fragmentshaderid)
+int			ft_setfragmentshader(uint *fragmentshaderid)
 {
 	GLint		success;
 	const char	*fragmentshadersource;
@@ -104,7 +104,7 @@ int			ft_createfragmentshader(uint *fragmentshaderid)
 ** TODO
 */
 
-int			ft_createshaderprogram(GLuint *shaderprogramid)
+int			ft_setshaderprogram(GLuint *shaderprogramid)
 {
 	t_env   *e;
 	GLuint	vertexshaderid;
@@ -114,8 +114,8 @@ int			ft_createshaderprogram(GLuint *shaderprogramid)
 
 	e = ft_getenvironment();
 	success = GL_FALSE;
-	if (ft_createvertexshader(&vertexshaderid)
-		|| ft_createfragmentshader(&fragmentshaderid))
+	if (ft_setvertexshader(&vertexshaderid)
+		|| ft_setfragmentshader(&fragmentshaderid))
 		return (-1);		
 	*shaderprogramid = glCreateProgram();
 	glAttachShader(*shaderprogramid, vertexshaderid);

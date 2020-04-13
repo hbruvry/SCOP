@@ -54,29 +54,29 @@ unsigned char	*ft_getbmpdata(FILE	*file, int imagesize)
 ** TODO
 */
 
-GLuint			ft_setbmptexture(void)
+int				ft_setbmptexture(GLuint *texturebuffer)
 {
 	FILE			*file;
 	int				width;
 	int				height;
 	int				imagesize;
-	unsigned char	*texture;
-	GLuint			textureid;
+	unsigned char	*texturebufferdata;
 
 	file = fopen("./resources/textures/uvtemplate.bmp", "rb");
 	if (ft_getsizefrombmp(file, &width, &height, &imagesize))
-		return (0);
+		return (-1);
 	ft_putnbr(imagesize);
-	if (!(texture = ft_getbmpdata(file, imagesize)))
-		return (0);
+	if (!(texturebufferdata = ft_getbmpdata(file, imagesize)))
+		return (-1);
 	fclose(file);
-	glGenTextures(1, &textureid);
-	glBindTexture(GL_TEXTURE_2D, textureid);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, texture);
+	glGenTextures(1, texturebuffer);
+	glBindTexture(GL_TEXTURE_2D, *texturebuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, texturebufferdata);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glGenerateMipmap(GL_TEXTURE_2D);
-	return (textureid);
+	ft_putendl("Texture BMP created");
+	return (0);
 }
