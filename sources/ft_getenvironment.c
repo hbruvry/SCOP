@@ -12,6 +12,18 @@
 
 #include "includes/scop.h"
 
+void	ft_setenvironmentobject(t_obj *obj)
+{
+	obj->vertexbufferdata = NULL;
+	obj->colorbufferdata = NULL;
+	obj->uvbufferdata = NULL;
+	obj->indicebufferdata = NULL;
+	obj->vcount = 0;
+	obj->fcount = 0;
+	obj->elementlength = 0;
+	return ;
+}
+
 void	ft_setenvironmentcamera(t_cam *cam)
 {
 	cam->vup = ft_vec3set(0.f, 1.f, 0.f);
@@ -38,6 +50,7 @@ t_env	*ft_getenvironment(void)
 			return (NULL);
 		ft_setenvironmentcamera(&(e->cam));
 		ft_setenvironmentcamera(&(e->camreset));
+		ft_setenvironmentobject(&(e->obj));
 		e->time.delta = 0.f;
 		e->time.lastframe = 0.f;
 	}

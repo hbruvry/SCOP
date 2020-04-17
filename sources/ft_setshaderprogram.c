@@ -49,13 +49,11 @@ int			ft_setvertexshader(uint *vertexshaderid)
 
 	success = GL_FALSE;
 	*vertexshaderid = glCreateShader(GL_VERTEX_SHADER);
-    ft_putendl(VERTPATH);
 	if(!(vertexshadersource = ft_filecpy("./shaders/vertexshader.vs")))
 	{
 		ft_putendl("Failed to load vertex shader");
 		return (-1);
 	}
-    ft_putendl(vertexshadersource);
 	glShaderSource(*vertexshaderid, 1, &vertexshadersource, NULL);
 	glCompileShader(*vertexshaderid);
 	glGetShaderiv(*vertexshaderid, GL_COMPILE_STATUS, &success);
@@ -86,7 +84,6 @@ int			ft_setfragmentshader(uint *fragmentshaderid)
 		ft_putendl("Failed to load fragment shader");
 		return (-1);
 	}
-    ft_putendl(fragmentshadersource);
 	glShaderSource(*fragmentshaderid, 1, &fragmentshadersource, NULL);
 	glCompileShader(*fragmentshaderid);
 	glGetShaderiv(*fragmentshaderid, GL_COMPILE_STATUS, &success);

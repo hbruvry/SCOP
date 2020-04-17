@@ -62,49 +62,23 @@ int		ft_setvao(GLuint *vertexarrayid)
 ** TODO
 */
 
-int		ft_setvbo(GLuint *vertexbuffer, GLuint *colorbuffer, GLuint *uvbuffer, GLuint *elementbuffer)
+int		ft_setvbo(GLuint *vertexbuffer, GLuint *colorbuffer, GLuint *uvbuffer, GLuint *elementbuffer, t_obj obj)
 {
-	t_env   *e;
-
-	e = ft_getenvironment();
-	GLfloat	vertexbufferdata[] = {
-		1.f, 1.f, 0.f,
-		1.f, -1.f, 0.f,
-		-1.f, -1.f, 0.f,
-		-1.f, 1.f, 0.f,
-	};
-	GLfloat colorbufferdata[] = {
-		0.583f,  0.771f,  0.014f,
-		0.609f,  0.115f,  0.436f,
-		0.327f,  0.483f,  0.844f,
-		0.310f,  0.747f,  0.185f
-	};
-	GLfloat uvbufferdata[] = { 
-		0.f, 0.f,
-		0.f, 1.f,
-		1.f, 1.f,
-		1.f, 0.f
-	};
-	GLuint	indicebufferdata[] = {
-		0, 1, 3,
-		1, 2, 3
-	};
-
 	glGenBuffers(1, vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexbufferdata), vertexbufferdata, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, obj.vcount * 3 * sizeof(*(obj.vertexbufferdata)), obj.vertexbufferdata, GL_STATIC_DRAW);
 
 	glGenBuffers(1, colorbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *colorbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(colorbufferdata), colorbufferdata, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, obj.vcount * 3 * sizeof(*(obj.colorbufferdata)), obj.colorbufferdata, GL_STATIC_DRAW);
 
 	glGenBuffers(1, uvbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *uvbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(uvbufferdata), uvbufferdata, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, obj.vcount * 2 * sizeof(*(obj.uvbufferdata)), obj.uvbufferdata, GL_STATIC_DRAW);
 
 	glGenBuffers(1, elementbuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *elementbuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicebufferdata), indicebufferdata, GL_STATIC_DRAW);	
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, obj.fcount * sizeof(*(obj.indicebufferdata)), obj.indicebufferdata, GL_STATIC_DRAW);	
 
     ft_putendl("Vertex buffer object created");
 	return (0);
@@ -114,11 +88,8 @@ int		ft_setvbo(GLuint *vertexbuffer, GLuint *colorbuffer, GLuint *uvbuffer, GLui
 ** TODO
 */
 
-void	setopenglenvironement()
+void	setopenglenvironement(t_ogl *o, t_env *e)
 {
-	t_ogl	*o;
-
-	o = ft_getopengl();
 	glfwSetCursorPosCallback(o->window, ft_mousecallback);
 	glfwSetScrollCallback(o->window, ft_scrollcallback);
 	glfwSetInputMode(o->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -128,8 +99,8 @@ void	setopenglenvironement()
 	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	ft_setvao(&(o->vertexarrayid));
-	ft_parseobject();
-	ft_setvbo(&(o->vertexbuffer), &(o->colorbuffer), &(o->uvbuffer), &(o->elementbuffer));
+	ft_parseobject(&(e->obj));
+	ft_setvbo(&(o->vertexbuffer), &(o->colorbuffer), &(o->uvbuffer), &(o->elementbuffer), e->obj);
 	ft_setbmptexture(&(o->texturebuffer));
 	ft_setshaderprogram(&(o->shaderprogramid));
 	o->textureid = glGetUniformLocation(o->shaderprogramid, "myTextureSampler");
@@ -152,11 +123,11 @@ int		main(void)
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	setopenglenvironement();
+	setopenglenvironement(o, e);
 	while (glfwGetKey(o->window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 			&& !glfwWindowShouldClose(o->window))
 	{
-		ft_drawscop();
+		ft_drawscop(o, e);
 	}
 	glDeleteVertexArrays(1, &(o->vertexarrayid));
 	glDeleteBuffers(1, &(o->vertexbuffer));

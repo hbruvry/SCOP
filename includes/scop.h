@@ -74,6 +74,8 @@ typedef struct	s_obj
 	GLfloat		*colorbufferdata;
 	GLfloat		*uvbufferdata;
 	GLuint		*indicebufferdata;
+	int			vcount;
+	int			fcount;
 	int			elementlength;
 }				t_obj;
 
@@ -89,12 +91,12 @@ t_ogl			*ft_getopengl(void);
 t_env			*ft_getenvironment(void);
 int				ft_setshaderprogram(GLuint *shaderprogramid);
 int				ft_setbmptexture(GLuint *texturebuffer);
-int				ft_parseobject(void);
+int				ft_parseobject(t_obj *obj);
 void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
 void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
 void			ft_processinput(GLFWwindow *window);
 void			ft_updatecamera(t_cam *cam);
 void			ft_setpvmmatrices(t_cam cam, GLuint *shaderprogramid);
-void			ft_drawscop(void);
+void			ft_drawscop(t_ogl *o, t_env *e);
 
 #endif

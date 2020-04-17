@@ -17,7 +17,7 @@
 ** glVertexAttribPointer(0, size, type, normalizedn stride, arraybufferoffset);
 */
 
-void	ft_drawvertexbuffer(void)
+void	ft_drawvertexbuffer(int fcount)
 {
 	t_ogl	*o;
 
@@ -35,7 +35,7 @@ void	ft_drawvertexbuffer(void)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, o->elementbuffer);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
+	glDrawElements(GL_TRIANGLES, fcount, GL_UNSIGNED_INT, (void*)0);
 	
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
@@ -47,13 +47,8 @@ void	ft_drawvertexbuffer(void)
 ** TODO
 */
 
-void	ft_drawscop(void)
+void	ft_drawscop(t_ogl *o, t_env *e)
 {
-	t_ogl	*o;
-	t_env   *e;
-
-	o = ft_getopengl();
-	e = ft_getenvironment();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ft_processinput(o->window);
 	ft_updatecamera(&(e->cam));
@@ -62,7 +57,7 @@ void	ft_drawscop(void)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, o->texturebuffer);
 	glUniform1i(o->textureid, 0);
-	ft_drawvertexbuffer();
+	ft_drawvertexbuffer(e->obj.fcount);
 	glfwSwapBuffers(o->window);
 	glfwPollEvents();
 	return ;
