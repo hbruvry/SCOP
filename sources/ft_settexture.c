@@ -65,7 +65,6 @@ int				ft_setbmptexture(GLuint *texturebuffer)
 	file = fopen("./resources/textures/uvtemplate.bmp", "rb");
 	if (ft_getsizefrombmp(file, &width, &height, &imagesize))
 		return (-1);
-	ft_putnbr(imagesize);
 	if (!(texturebufferdata = ft_getbmpdata(file, imagesize)))
 		return (-1);
 	fclose(file);
