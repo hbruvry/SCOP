@@ -12,11 +12,20 @@
 
 #include "includes/scop.h"
 
-void    ft_updatecamera(t_cam *cam)
-{
-    t_vec3  vup;
+/*
+** TODO
+*/
 
-    vup = ft_vec3set(0.f, 1.f, 0.f);
+void	ft_updatecamera(t_cam *cam)
+{
+	t_vec3  vup;
+
+	vup = ft_vec3set(0.f, 1.f, 0.f);
+	if (cam->turnaround == true)
+	{
+		cam->vpos.v[0] = sin(glfwGetTime()) * 5.f;
+		cam->vpos.v[2] = cos(glfwGetTime()) * 5.f;
+	}
 	if (cam->target == true)
 		cam->vdir = ft_vec3norm(ft_vec3sub(cam->vpos, cam->vtarget));
 	else

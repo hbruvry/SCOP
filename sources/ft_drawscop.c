@@ -27,7 +27,7 @@ void	ft_drawvertexbuffer(int fcount)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, o->colorbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, o->normalbuffer);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	
 	glEnableVertexAttribArray(2);

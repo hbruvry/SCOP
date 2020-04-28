@@ -29,7 +29,10 @@
 # define SPEED	5
 # define SENSI	0.025
 
-typedef enum {true, false} bool;
+typedef int bool;
+
+#define false 0
+#define true 1
 
 typedef struct	s_ogl
 {
@@ -39,7 +42,7 @@ typedef struct	s_ogl
 	GLuint		textureid;
 	GLuint		shaderprogramid;
 	GLuint		vertexbuffer;
-	GLuint		colorbuffer;
+	GLuint		normalbuffer;
 	GLuint		uvbuffer;
 	GLuint		elementbuffer;
 }				t_ogl;
@@ -53,6 +56,7 @@ typedef struct	s_cam
 	t_vec3		vdir;
 	t_vec3		vtarget;
 	bool		target;
+	bool		turnaround;
 	float		fov;
 	float		yaw;
 	float		pitch;
@@ -71,7 +75,7 @@ typedef struct	s_time
 typedef struct	s_obj
 {
 	GLfloat		*vertexbufferdata;
-	GLfloat		*colorbufferdata;
+	GLfloat		*normalbufferdata;
 	GLfloat		*uvbufferdata;
 	GLuint		*indicebufferdata;
 	int			vcount;
@@ -89,9 +93,16 @@ typedef struct	s_env
 
 t_ogl			*ft_getopengl(void);
 t_env			*ft_getenvironment(void);
+char			*ft_filecpy(char *path);
+char			**ft_filecpytab(char *path);
 int				ft_setshaderprogram(GLuint *shaderprogramid);
 int				ft_setbmptexture(GLuint *texturebuffer);
-int				ft_parseobject(t_obj *obj);
+void			ft_translatevertexbufferdata(GLfloat *vertexbufferdata, int vcount, t_vec3 vtrans);
+void			ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata);
+void			ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex);
+void			ft_setindicebufferdata(GLuint *indicebufferdata, char *objdata);
+void			ft_printobjectdata(t_obj obj);
+int				ft_parseobject(char *path, t_obj *obj);
 void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
 void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
 void			ft_processinput(GLFWwindow *window);

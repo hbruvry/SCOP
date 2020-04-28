@@ -78,7 +78,7 @@ void	ft_setpvmmatrices(t_cam cam, GLuint *shaderprogramid)
 	viewmat = ft_mat4transpose(ft_setlookatmatrix(cam));
 	projectionmat = ft_setprojectionmat4(cam.fov,
 		WIDTH / (float)HEIGHT, NEAR, FAR);
-    glUniformMatrix4fv(glGetUniformLocation(*shaderprogramid, "projection"),
+	glUniformMatrix4fv(glGetUniformLocation(*shaderprogramid, "projection"),
 		1, GL_FALSE, projectionmat.m);
 	glUniformMatrix4fv(glGetUniformLocation(*shaderprogramid, "view"),
 		1, GL_FALSE, viewmat.m);

@@ -12,6 +12,10 @@
 
 #include "includes/scop.h"
 
+/*
+** TODO
+*/
+
 t_ogl	*ft_getopengl(void)
 {
 	static t_ogl	*o = NULL;
@@ -24,7 +28,7 @@ t_ogl	*ft_getopengl(void)
 		o->vertexarrayid = 0;
 		o->shaderprogramid = 0;
 		o->vertexbuffer = 0;
-		o->colorbuffer = 0;
+		o->normalbuffer = 0;
 		o->uvbuffer = 0;
 		o->elementbuffer = 0;
 	}

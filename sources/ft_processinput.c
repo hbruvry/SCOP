@@ -63,7 +63,15 @@ void	ft_processinput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS
 		&& lastpress + 0.25f < e->time.currentframe)
 	{
-		e->cam.target = !e->cam.target;
+		if (e->cam.target == false && e->cam.turnaround == false)
+			e->cam.target = !e->cam.target;
+		else if (e->cam.target == true && e->cam.turnaround == false)
+			e->cam.turnaround = !e->cam.turnaround;
+		else
+		{
+			e->cam.target = !e->cam.target;
+			e->cam.turnaround = !e->cam.turnaround;
+		}
 		lastpress = e->time.currentframe;
 	}
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
@@ -71,6 +79,8 @@ void	ft_processinput(GLFWwindow *window)
 		e->cam.vpos = ft_vec3cpy(&(e->cam.vpos), e->camreset.vpos);
 		e->cam.vfront = ft_vec3cpy(&(e->cam.vfront), e->camreset.vfront);
 		e->cam.vtarget = ft_vec3cpy(&(e->cam.vtarget), e->camreset.vtarget);
+		e->cam.target = e->camreset.target;
+		e->cam.turnaround = e->camreset.turnaround;
 		e->cam.fov = e->camreset.fov;
 		e->cam.yaw = e->camreset.yaw;
 		e->cam.pitch = e->camreset.pitch;

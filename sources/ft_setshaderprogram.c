@@ -13,31 +13,6 @@
 #include "includes/scop.h"
 
 /*
-** File copy function
-*/
-
-char		*ft_filecpy(char *path)
-{
-	int		fd;
-	int		ret;
-	char	*line;
-	char	*file;
-
-	fd = 0;
-	line = NULL;
-	file = NULL;
-	if ((fd = open(path, O_RDONLY)) == -1)
-		return (0);
-	while ((ret = get_next_line(fd, &line)) == 1)
-	{
-		file = ft_strjoin(file, line);
-		file = ft_strjoin(file, "\n");
-	}
-	file = ft_strjoin(file, "\0");
-	return (file);
-}
-
-/*
 ** TODO
 */
 

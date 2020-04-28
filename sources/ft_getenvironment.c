@@ -12,10 +12,14 @@
 
 #include "includes/scop.h"
 
+/*
+** TODO
+*/
+
 void	ft_setenvironmentobject(t_obj *obj)
 {
 	obj->vertexbufferdata = NULL;
-	obj->colorbufferdata = NULL;
+	obj->normalbufferdata = NULL;
 	obj->uvbufferdata = NULL;
 	obj->indicebufferdata = NULL;
 	obj->vcount = 0;
@@ -24,13 +28,18 @@ void	ft_setenvironmentobject(t_obj *obj)
 	return ;
 }
 
+/*
+** TODO
+*/
+
 void	ft_setenvironmentcamera(t_cam *cam)
 {
 	cam->vup = ft_vec3set(0.f, 1.f, 0.f);
-	cam->vpos = ft_vec3set(0.f, 0.f, 4.f);
-	cam->vfront = ft_vec3set(0.f, 0.f, -1.f);
+	cam->vpos = ft_vec3set(0.f, 0.f, 5.f);
+	cam->vfront = ft_vec3set(0.f, 0.f, -1.f);s
 	cam->vtarget = ft_vec3set(0.f, 0.f, 0.f);
 	cam->target = false;
+	cam->turnaround = false;
 	cam->fov = FOV;
 	cam->yaw = -90.f;
 	cam->pitch = 0.f;
@@ -39,6 +48,10 @@ void	ft_setenvironmentcamera(t_cam *cam)
 	cam->lasty = HEIGHT * 0.5f;
 	return ;
 }
+
+/*
+** TODO
+*/
 
 t_env	*ft_getenvironment(void)
 {
