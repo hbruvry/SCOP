@@ -16,9 +16,10 @@
 ** TODO
 */
 
-void		ft_translatevertexbufferdata(GLfloat *vertexbufferdata, int vcount, t_vec3 vtrans)
+void		ft_translatevertexbufferdata(GLfloat *vertexbufferdata,
+										int vcount, t_vec3 vtrans)
 {
-	int i;
+	int		i;
 	t_vec3	vec;
 
 	i = 0;
@@ -53,7 +54,8 @@ void		ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata)
 	{
 		while (ft_isalpha(objdata[i]) || objdata[i] == ' ')
 			i++;
-		while (objdata[i + j] == '-' || ft_isdigit(objdata[i + j]) || objdata[i + j] == '.')
+		while (objdata[i + j] == '-'
+				|| ft_isdigit(objdata[i + j]) || objdata[i + j] == '.')
 			j++;
 		vertexbufferdata[++vinc] = (GLfloat)ft_atof(ft_strsub(objdata, i, j));
 		i += j;
@@ -69,7 +71,8 @@ void		ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata)
 void		ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex)
 {
 	vertex = ft_vec3norm(vertex);
-	uvbufferdata[0] = 2.f * (0.5f + atan2(vertex.v[2], vertex.v[0]) / (2 * M_PI)) - 1.f;
+	uvbufferdata[0] = 2.f * (0.5f + atan2(vertex.v[2], vertex.v[0])
+					/ (2 * M_PI)) - 1.f;
 	uvbufferdata[1] = 2.f * (0.5f + asin(vertex.v[1]) / M_PI) - 1.f;
 	return ;
 }

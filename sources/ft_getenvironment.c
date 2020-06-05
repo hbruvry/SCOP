@@ -36,7 +36,7 @@ void	ft_setenvironmentcamera(t_cam *cam)
 {
 	cam->vup = ft_vec3set(0.f, 1.f, 0.f);
 	cam->vpos = ft_vec3set(0.f, 0.f, 5.f);
-	cam->vfront = ft_vec3set(0.f, 0.f, -1.f);s
+	cam->vfront = ft_vec3set(0.f, 0.f, -1.f);
 	cam->vtarget = ft_vec3set(0.f, 0.f, 0.f);
 	cam->target = false;
 	cam->turnaround = false;

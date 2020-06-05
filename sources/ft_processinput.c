@@ -43,6 +43,28 @@ void	ft_processcamerainput(GLFWwindow *window)
 		e->cam.vpos = ft_vec3add(e->cam.vpos, ft_vec3scalar(vup, camspeed));
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		e->cam.vpos = ft_vec3sub(e->cam.vpos, ft_vec3scalar(vup, camspeed));
+}
+
+/*
+** TODO
+*/
+
+void	ft_processreset(GLFWwindow *window)
+{
+	t_env			*e;
+
+	e = ft_getenvironment();
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
+		e->cam.vpos = ft_vec3cpy(&(e->cam.vpos), e->camreset.vpos);
+		e->cam.vfront = ft_vec3cpy(&(e->cam.vfront), e->camreset.vfront);
+		e->cam.vtarget = ft_vec3cpy(&(e->cam.vtarget), e->camreset.vtarget);
+		e->cam.target = e->camreset.target;
+		e->cam.turnaround = e->camreset.turnaround;
+		e->cam.fov = e->camreset.fov;
+		e->cam.yaw = e->camreset.yaw;
+		e->cam.pitch = e->camreset.pitch;
+	}
 	return ;
 }
 
@@ -74,16 +96,6 @@ void	ft_processinput(GLFWwindow *window)
 		}
 		lastpress = e->time.currentframe;
 	}
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-	{
-		e->cam.vpos = ft_vec3cpy(&(e->cam.vpos), e->camreset.vpos);
-		e->cam.vfront = ft_vec3cpy(&(e->cam.vfront), e->camreset.vfront);
-		e->cam.vtarget = ft_vec3cpy(&(e->cam.vtarget), e->camreset.vtarget);
-		e->cam.target = e->camreset.target;
-		e->cam.turnaround = e->camreset.turnaround;
-		e->cam.fov = e->camreset.fov;
-		e->cam.yaw = e->camreset.yaw;
-		e->cam.pitch = e->camreset.pitch;
-	}
+	ft_processreset(window);
 	return ;
 }

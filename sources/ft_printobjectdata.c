@@ -35,10 +35,10 @@ void		ft_printobjectdata(t_obj obj)
 	vinc = -1;
 	while (++vinc < obj.vcount / 3 * 2)
 		vinc % 2 == 0 ? printf("\nvt %f", obj.uvbufferdata[vinc])
-		: printf(" %f", obj.uvbufferdata[vinc]);	
+		: printf(" %f", obj.uvbufferdata[vinc]);
 	while (++finc < obj.fcount)
 		finc % 3 == 0 ? printf("\nf %d", obj.indicebufferdata[finc])
 		: printf(" %d", obj.indicebufferdata[finc]);
 	printf("\n");
-	return;
+	return ;
 }

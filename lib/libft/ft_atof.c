@@ -29,25 +29,15 @@ float	ft_atof(const char *str)
 		|| str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
 		i++;
 	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
+		if (str[i++] == '-')
 			sign = -1;
-		i++;
-	}
 	while ('0' <= str[i] && str[i] <= '9')
-	{
-		atof = (atof * 10) + (str[i] - '0');
-		i++;
-	}
-	if (str[i] == '.')
-	{
-		i++;
+		atof = (atof * 10) + (str[i++] - '0');
+	if (str[i++] == '.')
 		while ('0' <= str[i] && str[i] <= '9')
 		{
-			atof = atof + (str[i] - '0') / dec;
+			atof = atof + (str[i++] - '0') / dec;
 			dec *= 10.f;
-			i++;
 		}
-	}
 	return (atof * sign);
 }

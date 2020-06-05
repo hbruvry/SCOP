@@ -24,7 +24,7 @@ int			ft_setvertexshader(uint *vertexshaderid)
 
 	success = GL_FALSE;
 	*vertexshaderid = glCreateShader(GL_VERTEX_SHADER);
-	if(!(vertexshadersource = ft_filecpy("./shaders/vertexshader.vs")))
+	if (!(vertexshadersource = ft_filecpy("./shaders/vertexshader.vs")))
 	{
 		ft_putendl("Failed to load vertex shader");
 		return (-1);
@@ -54,7 +54,7 @@ int			ft_setfragmentshader(uint *fragmentshaderid)
 
 	success = GL_FALSE;
 	*fragmentshaderid = glCreateShader(GL_FRAGMENT_SHADER);
-	if(!(fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs")))
+	if (!(fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs")))
 	{
 		ft_putendl("Failed to load fragment shader");
 		return (-1);
@@ -76,23 +76,37 @@ int			ft_setfragmentshader(uint *fragmentshaderid)
 ** TODO
 */
 
-int			ft_setshaderprogram(GLuint *shaderprogramid)
+int			ft_linkshaders(GLuint *shaderprogramid)
 {
-	t_env   *e;
 	GLuint	vertexshaderid;
 	GLuint	fragmentshaderid;
+
+	if (ft_setvertexshader(&vertexshaderid)
+		|| ft_setfragmentshader(&fragmentshaderid))
+		return (-1);
+	*shaderprogramid = glCreateProgram();
+	glAttachShader(*shaderprogramid, vertexshaderid);
+	glAttachShader(*shaderprogramid, fragmentshaderid);
+	glLinkProgram(*shaderprogramid);
+	glDeleteShader(vertexshaderid);
+	glDeleteShader(fragmentshaderid);
+	return (0);
+}
+
+/*
+** TODO
+*/
+
+int			ft_setshaderprogram(GLuint *shaderprogramid)
+{
+	t_env	*e;
 	GLint	success;
 	char	infolog[512];
 
 	e = ft_getenvironment();
 	success = GL_FALSE;
-	if (ft_setvertexshader(&vertexshaderid)
-		|| ft_setfragmentshader(&fragmentshaderid))
-		return (-1);		
-	*shaderprogramid = glCreateProgram();
-	glAttachShader(*shaderprogramid, vertexshaderid);
-	glAttachShader(*shaderprogramid, fragmentshaderid);
-	glLinkProgram(*shaderprogramid);
+	if (ft_linkshaders(shaderprogramid))
+		return (-1);
 	glGetProgramiv(*shaderprogramid, GL_LINK_STATUS, &success);
 	if (!success)
 	{
@@ -101,8 +115,6 @@ int			ft_setshaderprogram(GLuint *shaderprogramid)
 		ft_putstr(infolog);
 		return (-1);
 	}
-	glDeleteShader(vertexshaderid);
-	glDeleteShader(fragmentshaderid);
 	ft_putendl("Shader program created");
 	return (0);
 }

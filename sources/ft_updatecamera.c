@@ -18,7 +18,7 @@
 
 void	ft_updatecamera(t_cam *cam)
 {
-	t_vec3  vup;
+	t_vec3	vup;
 
 	vup = ft_vec3set(0.f, 1.f, 0.f);
 	if (cam->turnaround == true)
@@ -33,5 +33,5 @@ void	ft_updatecamera(t_cam *cam)
 			ft_vec3add(cam->vpos, cam->vfront)));
 	cam->vright = ft_vec3norm(ft_vec3cross(vup, cam->vdir));
 	cam->vup = ft_vec3cross(cam->vdir, cam->vright);
-	return ;   
+	return ;
 }

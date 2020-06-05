@@ -16,7 +16,8 @@
 ** TODO
 */
 
-int			ft_createvertexbufferdata(GLfloat **vertexbufferdata, int vcount, char **objdata)
+int			ft_createvertexbufferdata(GLfloat **vertexbufferdata,
+									int vcount, char **objdata)
 {
 	int		i;
 	int		vinc;
@@ -25,7 +26,6 @@ int			ft_createvertexbufferdata(GLfloat **vertexbufferdata, int vcount, char **o
 
 	i = -1;
 	vinc = 0;
-	vec = ft_vec3set(0.f, 0.f, 0.f);
 	vsum = ft_vec3set(0.f, 0.f, 0.f);
 	if (!(*vertexbufferdata = ft_memalloc(vcount * sizeof(GLfloat))))
 		return (-1);
@@ -36,7 +36,7 @@ int			ft_createvertexbufferdata(GLfloat **vertexbufferdata, int vcount, char **o
 			ft_setvertexbufferdata(*vertexbufferdata + vinc, &objdata[i][0]);
 			vec = ft_vec3set(*(*vertexbufferdata + vinc),
 							*(*vertexbufferdata + vinc + 1),
-							*(*vertexbufferdata + vinc + 2));				
+							*(*vertexbufferdata + vinc + 2));
 			vsum = ft_vec3add(vsum, vec);
 			vinc += 3;
 		}
@@ -50,16 +50,18 @@ int			ft_createvertexbufferdata(GLfloat **vertexbufferdata, int vcount, char **o
 ** TODO
 */
 
-int			ft_createuvbufferdata(GLfloat **uvbufferdata, GLfloat *vertexbufferdata, int vcount)
+int			ft_createuvbufferdata(GLfloat **uvbufferdata,
+								GLfloat *vertexbufferdata, int vcount)
 {
-	int 	i;
-	int 	vtinc;
+	int		i;
+	int		vtinc;
 	t_vec3	vec;
 
 	i = 0;
 	vtinc = 0;
 	vec = ft_vec3set(0.f, 0.f, 0.f);
-	if (vcount && !(*uvbufferdata = ft_memalloc(vcount / 3 * 2 * sizeof(GLfloat))))
+	if (vcount
+		&& !(*uvbufferdata = ft_memalloc(vcount / 3 * 2 * sizeof(GLfloat))))
 		return (-1);
 	while (i < vcount - 2)
 	{
@@ -77,7 +79,8 @@ int			ft_createuvbufferdata(GLfloat **uvbufferdata, GLfloat *vertexbufferdata, i
 ** TODO
 */
 
-int			ft_createindicebufferdata(GLuint **indicebufferdata, int fcount, char **objdata)
+int			ft_createindicebufferdata(GLuint **indicebufferdata,
+									int fcount, char **objdata)
 {
 	int		i;
 	int		j;
@@ -95,7 +98,7 @@ int			ft_createindicebufferdata(GLuint **indicebufferdata, int fcount, char **ob
 			j = -1;
 			k = 0;
 			ft_setindicebufferdata(*indicebufferdata + finc, &objdata[i][0]);
-			while(objdata[i][++j] != '\0')
+			while (objdata[i][++j] != '\0')
 				if (objdata[i][j] == ' ')
 					k++;
 			finc += (k > 3) ? 6 : 3;
@@ -150,9 +153,11 @@ int			ft_parseobject(char *path, t_obj *obj)
 		return (-1);
 	ft_getobjectdatacounts(obj, objdata);
 	ft_createvertexbufferdata(&(obj->vertexbufferdata), obj->vcount, objdata);
-	if (obj->vcount && !(obj->normalbufferdata = ft_memalloc(obj->vcount * sizeof(GLfloat))))
+	if (obj->vcount &&
+		!(obj->normalbufferdata = ft_memalloc(obj->vcount * sizeof(GLfloat))))
 		return (-1);
-	ft_createuvbufferdata(&(obj->uvbufferdata), obj->vertexbufferdata, obj->vcount);
+	ft_createuvbufferdata(&(obj->uvbufferdata),
+							obj->vertexbufferdata, obj->vcount);
 	ft_createindicebufferdata(&(obj->indicebufferdata), obj->fcount, objdata);
 	ft_putendl("Object parsed");
 	return (0);

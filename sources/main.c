@@ -14,10 +14,11 @@
 
 /*
 ** TODO
-** http://www.opengl-tutorial.org/fr/beginners-tutorials/tutorial-1-opening-a-window/
+** http://www.opengl-tutorial.org/
+** fr/beginners-tutorials/tutorial-1-opening-a-window/
 */
 
-int		ft_createwindow(GLFWwindow **window)
+int			ft_createwindow(GLFWwindow **window)
 {
 	if (!glfwInit())
 	{
@@ -62,20 +63,32 @@ void		ft_setvao(GLuint *vertexarrayid)
 ** TODO
 */
 
-void		ft_setvbo(GLuint *vertexbuffer, GLuint *normalbuffer, GLuint *uvbuffer, GLuint *elementbuffer, t_obj obj)
+void		ft_setvbo(GLuint *vertexbuffer, GLuint *normalbuffer,
+					GLuint *uvbuffer, GLuint *elementbuffer)
 {
+	t_env	*e;
+
+	e = ft_getenvironment();
 	glGenBuffers(1, vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, obj.vcount * 3 * sizeof(*(obj.vertexbufferdata)), obj.vertexbufferdata, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,
+				e->obj.vcount * 3 * sizeof(*(e->obj.vertexbufferdata)),
+				e->obj.vertexbufferdata, GL_STATIC_DRAW);
 	glGenBuffers(1, normalbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *normalbuffer);
-	glBufferData(GL_ARRAY_BUFFER, obj.vcount * 3 * sizeof(*(obj.normalbufferdata)), obj.normalbufferdata, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,
+				e->obj.vcount * 3 * sizeof(*(e->obj.normalbufferdata)),
+				e->obj.normalbufferdata, GL_STATIC_DRAW);
 	glGenBuffers(1, uvbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *uvbuffer);
-	glBufferData(GL_ARRAY_BUFFER, obj.vcount * 2 * sizeof(*(obj.uvbufferdata)), obj.uvbufferdata, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER,
+				e->obj.vcount * 2 * sizeof(*(e->obj.uvbufferdata)),
+				e->obj.uvbufferdata, GL_STATIC_DRAW);
 	glGenBuffers(1, elementbuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *elementbuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, obj.fcount * sizeof(*(obj.indicebufferdata)), obj.indicebufferdata, GL_STATIC_DRAW);	
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+				e->obj.fcount * sizeof(*(e->obj.indicebufferdata)),
+				e->obj.indicebufferdata, GL_STATIC_DRAW);
 	ft_putendl("Vertex buffer object created");
 	return ;
 }
@@ -84,7 +97,7 @@ void		ft_setvbo(GLuint *vertexbuffer, GLuint *normalbuffer, GLuint *uvbuffer, GL
 ** TODO
 */
 
-void	setopenglenvironement(char *path, t_ogl *o, t_env *e)
+void		setopenglenvironement(char *path, t_ogl *o, t_env *e)
 {
 	glfwSetCursorPosCallback(o->window, ft_mousecallback);
 	glfwSetScrollCallback(o->window, ft_scrollcallback);
@@ -96,7 +109,8 @@ void	setopenglenvironement(char *path, t_ogl *o, t_env *e)
 	glEnable(GL_CULL_FACE);
 	ft_setvao(&(o->vertexarrayid));
 	ft_parseobject(path, &(e->obj));
-	ft_setvbo(&(o->vertexbuffer), &(o->normalbuffer), &(o->uvbuffer), &(o->elementbuffer), e->obj);
+	ft_setvbo(&(o->vertexbuffer), &(o->normalbuffer),
+			&(o->uvbuffer), &(o->elementbuffer));
 	ft_setbmptexture(&(o->texturebuffer));
 	ft_setshaderprogram(&(o->shaderprogramid));
 	o->textureid = glGetUniformLocation(o->shaderprogramid, "myTextureSampler");
@@ -107,10 +121,10 @@ void	setopenglenvironement(char *path, t_ogl *o, t_env *e)
 ** TODO
 */
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_ogl	*o;
-	t_env   *e;
+	t_env	*e;
 
 	o = ft_getopengl();
 	e = ft_getenvironment();
