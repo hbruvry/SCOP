@@ -114,6 +114,8 @@ void		setopenglenvironement(char *path, t_ogl *o, t_env *e)
 	ft_setbmptexture(&(o->texturebuffer));
 	ft_setshaderprogram(&(o->shaderprogramid));
 	o->textureid = glGetUniformLocation(o->shaderprogramid, "myTextureSampler");
+	o->texturealphaid = glGetUniformLocation(o->shaderprogramid,
+											"myTextureAlpha");
 	return ;
 }
 

@@ -53,6 +53,7 @@ void	ft_drawscop(t_ogl *o, t_env *e)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, o->texturebuffer);
 	glUniform1i(o->textureid, 0);
+	glUniform1f(o->texturealphaid, e->obj.texturealpha);
 	ft_drawvertexbuffer(e->obj.fcount);
 	glfwSwapBuffers(o->window);
 	glfwPollEvents();

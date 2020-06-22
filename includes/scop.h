@@ -40,6 +40,7 @@ typedef struct	s_ogl
 	GLuint		vertexarrayid;
 	GLuint		texturebuffer;
 	GLuint		textureid;
+	GLuint		texturealphaid;
 	GLuint		shaderprogramid;
 	GLuint		vertexbuffer;
 	GLuint		normalbuffer;
@@ -78,6 +79,8 @@ typedef struct	s_obj
 	GLfloat		*normalbufferdata;
 	GLfloat		*uvbufferdata;
 	GLuint		*indicebufferdata;
+	bool		istextured;
+	float		texturealpha;	
 	int			vcount;
 	int			fcount;
 	int			elementlength;

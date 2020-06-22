@@ -6,10 +6,10 @@ in vec2 UV;
 out vec4 color;
 
 uniform sampler2D myTextureSampler;
+uniform float myTextureAlpha;
 
 void main()
 {
-	color = vec4(fragmentColor, 1.0);
-//	color = vec4(UV.x, UV.y, UV.x, 1.0);
-//	color = vec4(texture(myTextureSampler, UV).rgb, 1.0);
+	vec3 c = mix(fragmentColor, texture(myTextureSampler, UV).rgb, myTextureAlpha);
+	color = vec4(c, 1.0);
 }

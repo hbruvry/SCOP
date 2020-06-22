@@ -22,6 +22,8 @@ void	ft_setenvironmentobject(t_obj *obj)
 	obj->normalbufferdata = NULL;
 	obj->uvbufferdata = NULL;
 	obj->indicebufferdata = NULL;
+	obj->istextured = true;
+	obj->texturealpha = 1.f;
 	obj->vcount = 0;
 	obj->fcount = 0;
 	obj->elementlength = 0;

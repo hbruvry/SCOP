@@ -72,6 +72,29 @@ void	ft_processreset(GLFWwindow *window)
 ** TODO
 */
 
+void	ft_processtexturealpha(GLFWwindow *window)
+{
+	t_env			*e;
+	static float	lastpress = 0.f;
+
+	e = ft_getenvironment();
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS
+		&& lastpress + 0.25f < e->time.currentframe)
+	{
+		e->obj.istextured = !e->obj.istextured;
+		lastpress = e->time.currentframe;
+	}
+	if (e->obj.istextured == false && e->obj.texturealpha >= 0.f)
+		e->obj.texturealpha -= 0.05f;
+	else if (e->obj.istextured == true && e->obj.texturealpha <= 1.f)
+		e->obj.texturealpha += 0.05f;
+	return ;
+}
+
+/*
+** TODO
+*/
+
 void	ft_processinput(GLFWwindow *window)
 {
 	t_env			*e;
@@ -96,6 +119,7 @@ void	ft_processinput(GLFWwindow *window)
 		}
 		lastpress = e->time.currentframe;
 	}
+	ft_processtexturealpha(window);
 	ft_processreset(window);
 	return ;
 }
