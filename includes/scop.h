@@ -102,7 +102,7 @@ int				ft_setshaderprogram(GLuint *shaderprogramid);
 int				ft_setbmptexture(GLuint *texturebuffer);
 void			ft_translatevertexbufferdata(GLfloat *vertexbufferdata, int vcount, t_vec3 vtrans);
 void			ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata);
-void			ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex);
+void			ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex, t_vec3 secondvertex, t_vec3 thirdvertex);
 void			ft_setindicebufferdata(GLuint *indicebufferdata, char *objdata);
 void			ft_printobjectdata(t_obj obj);
 int				ft_parseobject(char *path, t_obj *obj);

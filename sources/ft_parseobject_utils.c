@@ -68,12 +68,27 @@ void		ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata)
 ** TODO
 */
 
-void		ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex)
+void		ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex, t_vec3 secondvertex,  t_vec3 thirdvertex)
 {
+	float	ua;
+	float	ub;
+
+	ua = 0.0f;
+	ub = 0.0f;
 	vertex = ft_vec3norm(vertex);
-	uvbufferdata[0] = 2.f * (0.5f + atan2(vertex.v[2], vertex.v[0])
-					/ (2 * M_PI)) - 1.f;
-	uvbufferdata[1] = 2.f * (0.5f + asin(vertex.v[1]) / M_PI) - 1.f;
+	secondvertex = ft_vec3norm(secondvertex);
+	thirdvertex = ft_vec3norm(thirdvertex);
+	uvbufferdata[0] = 0.5f + atan2(vertex.v[0], vertex.v[2])
+					/ (2 * M_PI);
+	uvbufferdata[1] = 0.5f + asin(vertex.v[1]) / M_PI;
+	ua = 0.5f + atan2(secondvertex.v[0], secondvertex.v[2]) / (2 * M_PI);
+	ub = 0.5f + atan2(thirdvertex.v[0], thirdvertex.v[2]) / (2 * M_PI);
+	if (uvbufferdata[0] < 0.25f && (ua > 0.75f || ub > 0.75f))
+		uvbufferdata[0] += 1.0f;
+	/*
+	else if (ua < 0.25f && ub < 0.75 && uvbufferdata[0] > 0.75f)
+		uvbufferdata[0] -= 1.0f;
+	*/
 	return ;
 }
 

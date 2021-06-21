@@ -64,7 +64,7 @@ int				ft_setbmptexture(GLuint *texturebuffer)
 	int				imagesize;
 	unsigned char	*texturebufferdata;
 
-	file = fopen("./resources/textures/uvtemplate.bmp", "rb");
+	file = fopen("./resources/textures/cat.bmp", "rb");
 	if (ft_getsizefrombmp(file, &width, &height, &imagesize))
 		return (-1);
 	if (!(texturebufferdata = ft_getbmpdata(file, imagesize)))
@@ -74,8 +74,8 @@ int				ft_setbmptexture(GLuint *texturebuffer)
 	glBindTexture(GL_TEXTURE_2D, *texturebuffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
 				0, GL_BGR, GL_UNSIGNED_BYTE, texturebufferdata);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D,
 					GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

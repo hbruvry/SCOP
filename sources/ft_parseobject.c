@@ -56,10 +56,14 @@ int			ft_createuvbufferdata(GLfloat **uvbufferdata,
 	int		i;
 	int		vtinc;
 	t_vec3	vec;
+	t_vec3	secondvec;
+	t_vec3	thirdvec;
 
 	i = 0;
 	vtinc = 0;
 	vec = ft_vec3set(0.f, 0.f, 0.f);
+	secondvec = ft_vec3set(0.f, 0.f, 0.f); 
+	thirdvec = ft_vec3set(0.f, 0.f, 0.f);
 	if (vcount
 		&& !(*uvbufferdata = ft_memalloc(vcount / 3 * 2 * sizeof(GLfloat))))
 		return (-1);
@@ -68,7 +72,15 @@ int			ft_createuvbufferdata(GLfloat **uvbufferdata,
 		vec = ft_vec3set(vertexbufferdata[i],
 						vertexbufferdata[i + 1],
 						vertexbufferdata[i + 2]);
-		ft_setuvbufferdata(*uvbufferdata + vtinc, vec);
+		if (i > 2)
+			secondvec = ft_vec3set(vertexbufferdata[i - 3],
+						vertexbufferdata[i - 2],
+						vertexbufferdata[i - 1]);
+		if (i > 5)
+			thirdvec = ft_vec3set(vertexbufferdata[i - 6],
+						vertexbufferdata[i - 5],
+						vertexbufferdata[i - 4]);
+		ft_setuvbufferdata(*uvbufferdata + vtinc, vec, secondvec, thirdvec);
 		vtinc += 2;
 		i += 3;
 	}
