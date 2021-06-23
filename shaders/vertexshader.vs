@@ -5,7 +5,7 @@ layout (location = 1) in vec3 vertexColor;
 layout (location = 2) in vec2 vertexUV;
 
 flat out vec3 fragmentColor;
-out vec2 UV;
+out vec2 uv;
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -21,5 +21,5 @@ void main()
 	else
 		level = 1 - ((gl_VertexID % 8) * 0.125);
 	fragmentColor = vec3(level);
-	UV = vertexUV;
+	uv = vertexUV;
 }

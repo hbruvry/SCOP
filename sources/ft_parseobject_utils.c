@@ -16,7 +16,7 @@
 ** TODO
 */
 
-void		ft_translatevertexbufferdata(GLfloat *vertexbufferdata,
+void	ft_translatevertexbufferdata(GLfloat *vertexbufferdata,
 										int vcount, t_vec3 vtrans)
 {
 	int		i;
@@ -25,9 +25,9 @@ void		ft_translatevertexbufferdata(GLfloat *vertexbufferdata,
 	i = 0;
 	while (i < vcount - 2)
 	{
-		vec = ft_vec3set(vertexbufferdata[i],
-						vertexbufferdata[i + 1],
-						vertexbufferdata[i + 2]);
+		vec.v[0] = vertexbufferdata[i];
+		vec.v[1] = vertexbufferdata[i + 1];
+		vec.v[2] = vertexbufferdata[i + 2];
 		vec = ft_vec3sub(vec, vtrans);
 		vertexbufferdata[i] = vec.v[0];
 		vertexbufferdata[i + 1] = vec.v[1];
@@ -41,11 +41,12 @@ void		ft_translatevertexbufferdata(GLfloat *vertexbufferdata,
 ** TODO
 */
 
-void		ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata)
+void	ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata)
 {
-	int	i;
-	int	j;
-	int	vinc;
+	int		i;
+	int		j;
+	int		vinc;
+	char	*fr;
 
 	i = 0;
 	j = 0;
@@ -55,9 +56,11 @@ void		ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata)
 		while (ft_isalpha(objdata[i]) || objdata[i] == ' ')
 			i++;
 		while (objdata[i + j] == '-'
-				|| ft_isdigit(objdata[i + j]) || objdata[i + j] == '.')
+			|| ft_isdigit(objdata[i + j]) || objdata[i + j] == '.')
 			j++;
-		vertexbufferdata[++vinc] = (GLfloat)ft_atof(ft_strsub(objdata, i, j));
+		fr = ft_strsub(objdata, i, j);
+		vertexbufferdata[++vinc] = (GLfloat)ft_atof(fr);
+		free(fr);
 		i += j;
 		j = 0;
 	}
@@ -68,27 +71,12 @@ void		ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata)
 ** TODO
 */
 
-void		ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex, t_vec3 secondvertex,  t_vec3 thirdvertex)
+void	ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex)
 {
-	float	ua;
-	float	ub;
-
-	ua = 0.0f;
-	ub = 0.0f;
 	vertex = ft_vec3norm(vertex);
-	secondvertex = ft_vec3norm(secondvertex);
-	thirdvertex = ft_vec3norm(thirdvertex);
-	uvbufferdata[0] = 0.5f + atan2(vertex.v[0], vertex.v[2])
-					/ (2 * M_PI);
-	uvbufferdata[1] = 0.5f + asin(vertex.v[1]) / M_PI;
-	ua = 0.5f + atan2(secondvertex.v[0], secondvertex.v[2]) / (2 * M_PI);
-	ub = 0.5f + atan2(thirdvertex.v[0], thirdvertex.v[2]) / (2 * M_PI);
-	if (uvbufferdata[0] < 0.25f && (ua > 0.75f || ub > 0.75f))
-		uvbufferdata[0] += 1.0f;
-	/*
-	else if (ua < 0.25f && ub < 0.75 && uvbufferdata[0] > 0.75f)
-		uvbufferdata[0] -= 1.0f;
-	*/
+	uvbufferdata[0] = atan2(vertex.v[2], vertex.v[0]) / (2.0f * M_PI);
+	uvbufferdata[0] += 0.5f;
+	uvbufferdata[1] = 0.5f - asin(vertex.v[1]) / M_PI;
 	return ;
 }
 
@@ -96,11 +84,24 @@ void		ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex, t_vec3 secondvert
 ** TODO
 */
 
-void		ft_setindicebufferdata(GLuint *indicebufferdata, char *objdata)
+void	ft_setindicebuffer(int index, GLuint *indicebufferdata, char *str)
 {
-	int	i;
-	int	j;
-	int	finc;
+	indicebufferdata[index + 1] = indicebufferdata[index];
+	indicebufferdata[index + 2] = ft_atoi(str) - 1;
+	indicebufferdata[index + 3] = indicebufferdata[index - 2];
+	return ;
+}
+
+/*
+** TODO
+*/
+
+void	ft_setindicebufferdata(GLuint *indicebufferdata, char *objdata)
+{
+	int		i;
+	int		j;
+	int		finc;
+	char	*fr;
 
 	i = 0;
 	j = 0;
@@ -111,14 +112,12 @@ void		ft_setindicebufferdata(GLuint *indicebufferdata, char *objdata)
 			i++;
 		while (ft_isdigit(objdata[i + j]))
 			j++;
+		fr = ft_strsub(objdata, i, j);
 		if (finc == 2)
-		{
-			indicebufferdata[finc + 1] = indicebufferdata[finc];
-			indicebufferdata[finc + 2] = ft_atoi(ft_strsub(objdata, i, j)) - 1;
-			indicebufferdata[finc + 3] = indicebufferdata[finc - 2];
-		}
+			ft_setindicebuffer(finc, indicebufferdata, fr);
 		else
-			indicebufferdata[++finc] = ft_atoi(ft_strsub(objdata, i, j)) - 1;
+			indicebufferdata[++finc] = ft_atoi(fr) - 1;
+		free(fr);
 		i += j;
 		j = 0;
 	}

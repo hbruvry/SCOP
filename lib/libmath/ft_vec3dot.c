@@ -18,6 +18,9 @@
 
 float	ft_vec3dot(t_vec3 vdst, t_vec3 vsrc)
 {
-	return (vdst.v[0] * vsrc.v[0]
-			+ vdst.v[1] * vsrc.v[1] + vdst.v[2] * vsrc.v[2]);
+	float	res;
+
+	res = vdst.v[0] * vsrc.v[0] + vdst.v[1] * vsrc.v[1]
+		+ vdst.v[2] * vsrc.v[2];
+	return (res);
 }

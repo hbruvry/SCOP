@@ -23,7 +23,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	unsigned char	pc;
 
 	i = 0;
-	ps = (unsigned char*)s;
+	ps = (unsigned char *)s;
 	pc = (unsigned char)c;
 	while (i < n)
 	{

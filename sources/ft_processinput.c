@@ -20,25 +20,22 @@ void	ft_processcamerainput(GLFWwindow *window)
 {
 	t_env			*e;
 	t_vec3			vup;
+	t_vec3			vtmp;
 	float			camspeed;
 
 	e = ft_getenvironment();
 	vup = ft_vec3set(0.f, 1.f, 0.f);
 	camspeed = SPEED * e->time.delta;
+	vtmp = ft_vec3scalar(e->cam.vfront, camspeed);
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		e->cam.vpos = ft_vec3add(e->cam.vpos,
-			ft_vec3scalar(e->cam.vfront, camspeed));
+		e->cam.vpos = ft_vec3add(e->cam.vpos, vtmp);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		e->cam.vpos = ft_vec3sub(e->cam.vpos,
-			ft_vec3scalar(e->cam.vfront, camspeed));
+		e->cam.vpos = ft_vec3sub(e->cam.vpos, vtmp);
+	vtmp = ft_vec3norm(ft_vec3cross(e->cam.vfront, e->cam.vup));
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		e->cam.vpos = ft_vec3sub(e->cam.vpos,
-			ft_vec3scalar(ft_vec3norm(
-			ft_vec3cross(e->cam.vfront, e->cam.vup)), camspeed));
+		e->cam.vpos = ft_vec3sub(e->cam.vpos, ft_vec3scalar(vtmp, camspeed));
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		e->cam.vpos = ft_vec3add(e->cam.vpos,
-			ft_vec3scalar(ft_vec3norm(
-			ft_vec3cross(e->cam.vfront, e->cam.vup)), camspeed));
+		e->cam.vpos = ft_vec3add(e->cam.vpos, ft_vec3scalar(vtmp, camspeed));
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		e->cam.vpos = ft_vec3add(e->cam.vpos, ft_vec3scalar(vup, camspeed));
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
@@ -84,9 +81,9 @@ void	ft_processtexturealpha(GLFWwindow *window)
 		e->obj.istextured = !e->obj.istextured;
 		lastpress = e->time.currentframe;
 	}
-	if (e->obj.istextured == false && e->obj.texturealpha >= 0.f)
+	if (e->obj.istextured == FALSE && e->obj.texturealpha >= 0.f)
 		e->obj.texturealpha -= 0.05f;
-	else if (e->obj.istextured == true && e->obj.texturealpha <= 1.f)
+	else if (e->obj.istextured == TRUE && e->obj.texturealpha <= 1.f)
 		e->obj.texturealpha += 0.05f;
 	return ;
 }
@@ -108,9 +105,9 @@ void	ft_processinput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS
 		&& lastpress + 0.25f < e->time.currentframe)
 	{
-		if (e->cam.target == false && e->cam.turnaround == false)
+		if (e->cam.target == FALSE && e->cam.turnaround == FALSE)
 			e->cam.target = !e->cam.target;
-		else if (e->cam.target == true && e->cam.turnaround == false)
+		else if (e->cam.target == TRUE && e->cam.turnaround == FALSE)
 			e->cam.turnaround = !e->cam.turnaround;
 		else
 		{

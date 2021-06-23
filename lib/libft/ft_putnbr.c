@@ -18,7 +18,7 @@
 
 void	ft_putnbr(int n)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (n == -2147483648)

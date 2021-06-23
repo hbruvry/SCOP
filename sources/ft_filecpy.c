@@ -13,28 +13,52 @@
 #include "includes/scop.h"
 
 /*
+** TODO
+*/
+
+int	ft_filecharlen(char *path)
+{
+	int		fd;
+	int		len;
+	char	*line;
+
+	len = 0;
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	while (get_next_line(fd, &line) == 1)
+	{
+		len += ft_strlen(line) + 1;
+		free(line);
+	}
+	if (close(fd) == -1)
+		return (0);
+	return (len + 1);
+}
+
+/*
 ** File copy function
 */
 
 char	*ft_filecpy(char *path)
 {
 	int		fd;
-	int		ret;
 	char	*line;
 	char	*file;
 
 	fd = 0;
 	line = NULL;
-	file = NULL;
-	if ((fd = open(path, O_RDONLY)) == -1)
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
 		return (NULL);
-	while ((ret = get_next_line(fd, &line)) == 1)
+	file = ft_strnew(ft_filecharlen(path));
+	while (get_next_line(fd, &line) == 1)
 	{
-		file = ft_strjoin(file, line);
-		file = ft_strjoin(file, "\n");
+		ft_strcat(file, line);
+		ft_strcat(file, "\n");
 		free(line);
 	}
-	file = ft_strjoin(file, "\0");
+	ft_strcat(file, "\0");
 	return (file);
 }
 
@@ -42,21 +66,42 @@ char	*ft_filecpy(char *path)
 ** TODO
 */
 
-int		ft_filelen(char *path)
+int	ft_filelen(char *path)
 {
 	int		fd;
 	int		len;
 	char	*line;
 
 	len = 0;
-	if ((fd = open(path, O_RDONLY)) == -1)
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
 		return (0);
 	while (get_next_line(fd, &line) == 1)
 	{
 		free(line);
 		len++;
 	}
-	return (close(fd) == -1 ? 0 : len);
+	if (close(fd) == -1)
+		return (0);
+	return (len);
+}
+
+/*
+**
+*/
+
+int	ft_checkfile(char *path)
+{
+	int		fd;
+	char	b[1];
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1 || !read(fd, b, 1) || close(fd) == -1)
+	{
+		ft_putendl("File could not be opened");
+		return (-1);
+	}
+	return (0);
 }
 
 /*
@@ -66,22 +111,20 @@ int		ft_filelen(char *path)
 char	**ft_filecpytab(char *path)
 {
 	int		fd;
-	char	b[1];
 	int		len;
 	char	**fcopy;
 	char	*line;
 
 	fcopy = NULL;
-	if ((fd = open(path, O_RDONLY)) == -1 || !read(fd, b, 1) || close(fd) == -1)
-	{
-		ft_putendl("File could not be opened");
+	if (ft_checkfile(path))
 		return (NULL);
-	}
-	if ((len = ft_filelen(path)) != 0)
+	len = ft_filelen(path);
+	if (len != 0)
 	{
-		if (!(fcopy = ft_memalloc((len + 1) * sizeof(char*)))
-			|| (fd = open(path, O_RDONLY)) == -1)
-			return (0);
+		fcopy = ft_memalloc((len + 1) * sizeof(char *));
+		fd = open(path, O_RDONLY);
+		if (!fcopy || fd == -1)
+			return (NULL);
 		len = -1;
 		while (get_next_line(fd, &line) == 1)
 		{

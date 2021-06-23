@@ -14,7 +14,7 @@
 
 /*
 ** TODO
-** glVertexAttribPointer(0, size, type, normalizedn stride, arraybufferoffset);
+** glVertexAttribPointer(0, size, type, normalized stride, arraybufferoffset);
 */
 
 void	ft_drawvertexbuffer(int fcount)
@@ -24,15 +24,15 @@ void	ft_drawvertexbuffer(int fcount)
 	o = ft_getopengl();
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, o->vertexbuffer);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, o->normalbuffer);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void *)0);
 	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, o->uvbuffer);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void *)0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, o->elementbuffer);
-	glDrawElements(GL_TRIANGLES, fcount, GL_UNSIGNED_INT, (void*)0);
+	glDrawElements(GL_TRIANGLES, fcount, GL_UNSIGNED_INT, (void *)0);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

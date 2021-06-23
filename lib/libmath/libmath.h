@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __LIBMATH_H
-# define __LIBMATH_H
+#ifndef LIBMATH_H
+# define LIBMATH_H
 
 # include <math.h>
 # include <stdio.h>
@@ -21,12 +21,12 @@
 # define AXIS_Z 2
 # define IDENTITY 0x7FFFFFFF
 
-typedef struct		s_vec3
+typedef struct s_vec3
 {
 	float	v[3];
 }					t_vec3;
 
-typedef struct		s_mat4
+typedef struct s_mat4
 {
 	float	m[16];
 }					t_mat4;
@@ -51,7 +51,7 @@ t_mat4				ft_mat4scale(t_mat4 mat, t_vec3 vscale);
 t_mat4				ft_mat4rotate(t_mat4 mat, t_vec3 vrot);
 t_mat4				ft_mat4translate(t_mat4 mat, t_vec3 vtrans);
 t_mat4				ft_mat4transform(t_mat4 mat,
-									t_vec3 vscale, t_vec3 vrot, t_vec3 vtrans);
+						t_vec3 vscale, t_vec3 vrot, t_vec3 vtrans);
 t_mat4				ft_mat4transpose(t_mat4 mat);
 void				ft_mat4print(t_mat4 mat);
 t_vec3				ft_vec3appmat4(t_vec3 vec, t_mat4 mat);

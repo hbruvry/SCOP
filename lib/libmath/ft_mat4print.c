@@ -18,7 +18,7 @@
 
 void	ft_mat4print(t_mat4 mat)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < 16)

@@ -22,7 +22,7 @@ char	*ft_strdup(const char *s1)
 	size_t	len;
 
 	len = ft_strlen(s1) + 1;
-	s2 = (char*)malloc(len * sizeof(*s2));
+	s2 = (char *)malloc(len * sizeof(*s2));
 	if (s2 == NULL)
 		return (0);
 	ft_memcpy(s2, s1, len);

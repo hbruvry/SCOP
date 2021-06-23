@@ -18,7 +18,7 @@
 
 t_vec3	ft_vec3set(float x, float y, float z)
 {
-	t_vec3 vec;
+	t_vec3	vec;
 
 	vec.v[0] = x;
 	vec.v[1] = y;

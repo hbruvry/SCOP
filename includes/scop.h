@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __SCOP_H
-# define __SCOP_H
+#ifndef SCOP_H
+# define SCOP_H
 
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
@@ -29,12 +29,12 @@
 # define SPEED	5
 # define SENSI	0.025
 
-typedef int bool;
+typedef int		t_bool;
 
-#define false 0
-#define true 1
+# define FALSE	0
+# define TRUE	1
 
-typedef struct	s_ogl
+typedef struct s_ogl
 {
 	GLFWwindow	*window;
 	GLuint		vertexarrayid;
@@ -48,7 +48,7 @@ typedef struct	s_ogl
 	GLuint		elementbuffer;
 }				t_ogl;
 
-typedef struct	s_cam
+typedef struct s_cam
 {
 	t_vec3		vpos;
 	t_vec3		vfront;
@@ -56,37 +56,37 @@ typedef struct	s_cam
 	t_vec3		vright;
 	t_vec3		vdir;
 	t_vec3		vtarget;
-	bool		target;
-	bool		turnaround;
+	t_bool		target;
+	t_bool		turnaround;
 	float		fov;
 	float		yaw;
 	float		pitch;
-	bool		firstmouse;
+	t_bool		firstmouse;
 	float		lastx;
 	float		lasty;
 }				t_cam;
 
-typedef struct	s_time
+typedef struct s_time
 {
 	float		currentframe;
 	float		lastframe;
 	float		delta;
 }				t_time;
 
-typedef struct	s_obj
+typedef struct s_obj
 {
 	GLfloat		*vertexbufferdata;
 	GLfloat		*normalbufferdata;
 	GLfloat		*uvbufferdata;
 	GLuint		*indicebufferdata;
-	bool		istextured;
-	float		texturealpha;	
+	t_bool		istextured;
+	float		texturealpha;
 	int			vcount;
 	int			fcount;
 	int			elementlength;
 }				t_obj;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	t_cam		cam;
 	t_cam		camreset;
@@ -100,14 +100,17 @@ char			*ft_filecpy(char *path);
 char			**ft_filecpytab(char *path);
 int				ft_setshaderprogram(GLuint *shaderprogramid);
 int				ft_setbmptexture(GLuint *texturebuffer);
-void			ft_translatevertexbufferdata(GLfloat *vertexbufferdata, int vcount, t_vec3 vtrans);
-void			ft_setvertexbufferdata(GLfloat *vertexbufferdata, char *objdata);
-void			ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex, t_vec3 secondvertex, t_vec3 thirdvertex);
+void			ft_translatevertexbufferdata(GLfloat *vertexbufferdata,
+					int vcount, t_vec3 vtrans);
+void			ft_setvertexbufferdata(GLfloat *vertexbufferdata,
+					char *objdata);
+void			ft_setuvbufferdata(GLfloat *uvbufferdata, t_vec3 vertex);
 void			ft_setindicebufferdata(GLuint *indicebufferdata, char *objdata);
-void			ft_printobjectdata(t_obj obj);
 int				ft_parseobject(char *path, t_obj *obj);
+void			ft_exitscop(void);
 void			ft_mousecallback(GLFWwindow *window, double posx, double posy);
-void			ft_scrollcallback(GLFWwindow *window, double offsetx, double offsety);
+void			ft_scrollcallback(GLFWwindow *window, double offsetx,
+					double offsety);
 void			ft_processinput(GLFWwindow *window);
 void			ft_updatecamera(t_cam *cam);
 void			ft_setpvmmatrices(t_cam cam, GLuint *shaderprogramid);

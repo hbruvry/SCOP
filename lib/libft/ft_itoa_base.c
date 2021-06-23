@@ -21,7 +21,8 @@ char	*ft_getres(int i, int neg, int *itoa)
 
 	j = neg;
 	base = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	if (!(str = (char *)malloc(i * sizeof(char))))
+	str = (char *)malloc(i * sizeof(char));
+	if (!str)
 		return (NULL);
 	i--;
 	if (neg == 1)

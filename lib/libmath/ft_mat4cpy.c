@@ -18,7 +18,7 @@
 
 t_mat4	ft_mat4cpy(t_mat4 *mdst, t_mat4 msrc)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (i++ < 16)

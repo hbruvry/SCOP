@@ -26,7 +26,7 @@ char	*ft_strstr(const char *big, const char *little)
 	i = 0;
 	j = 0;
 	llittle = ft_strlen(little);
-	pbig = (char*)big;
+	pbig = (char *)big;
 	if (llittle == 0)
 		return (pbig);
 	while (pbig[i] != '\0')

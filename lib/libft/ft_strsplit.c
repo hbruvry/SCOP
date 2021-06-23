@@ -24,7 +24,8 @@ static char	*ft_mallocword(char const *s, char c)
 	i = 0;
 	while (s[i] && s[i] != c)
 		i++;
-	if (!(temp = ft_memalloc(sizeof(char) * (i + 1))))
+	temp = ft_memalloc(sizeof(char) * (i + 1));
+	if (!temp)
 		return (NULL);
 	i = 0;
 	while (s[i] && s[i] != c)
@@ -65,7 +66,7 @@ static int	ft_countwords(char const *s, char c)
 ** resulting from the cutting of s according to the character c
 */
 
-char		**ft_strsplit(char const *s, char c)
+char	**ft_strsplit(char const *s, char c)
 {
 	int		i;
 	int		j;
@@ -73,7 +74,8 @@ char		**ft_strsplit(char const *s, char c)
 
 	i = 0;
 	j = 0;
-	if (!(tab = malloc(sizeof(char *) * (ft_countwords(s, c) + 1))))
+	tab = malloc(sizeof(char *) * (ft_countwords(s, c) + 1));
+	if (!tab)
 		return (NULL);
 	while (s[i])
 	{

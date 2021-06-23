@@ -23,9 +23,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 	else if (s1 == NULL)
-		return (ft_strdup((char*)s2));
+		return (ft_strdup((char *)s2));
 	else if (s2 == NULL)
-		return (ft_strdup((char*)s1));
+		return (ft_strdup((char *)s1));
 	sjoin = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
 	if (sjoin == NULL)
 		return (NULL);

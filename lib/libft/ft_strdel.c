@@ -20,7 +20,7 @@ void	ft_strdel(char **as)
 {
 	void	**pas;
 
-	pas = (void**)as;
+	pas = (void **)as;
 	ft_memdel(pas);
 	return ;
 }

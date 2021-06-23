@@ -16,12 +16,13 @@
 ** Join the buffer to the end of the string STR
 */
 
-int		ft_bufjoin(const int fd, char **str, char *buf)
+int	ft_bufjoin(const int fd, char **str, char *buf)
 {
 	int		ret;
 	char	*fr;
 
-	if ((ret = read(fd, buf, BUFF_SIZE)) > 0)
+	ret = read(fd, buf, BUFF_SIZE);
+	if (ret > 0)
 	{
 		buf[ret] = '\0';
 		fr = *str;
@@ -36,7 +37,7 @@ int		ft_bufjoin(const int fd, char **str, char *buf)
 ** Split line according to '\n' character
 */
 
-int		ft_linesplit(char **dst, char **src)
+int	ft_linesplit(char **dst, char **src)
 {
 	int		i;
 	char	*fr;
@@ -61,7 +62,7 @@ int		ft_linesplit(char **dst, char **src)
 ** Return a new string containing the next line of the file descriptor
 */
 
-int		get_next_line(const int fd, char **line)
+int	get_next_line(const int fd, char **line)
 {
 	char			buf[BUFF_SIZE + 1];
 	static char		*str[OPEN_MAX];

@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getenvironment.c                                :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbruvry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/02 16:06:38 by hbruvry           #+#    #+#             */
-/*   Updated: 2020/03/02 16:17:20 by hbruvry          ###   ########.fr       */
+/*   Created: 2020/01/09 10:53:18 by hbruvry           #+#    #+#             */
+/*   Updated: 2020/02/28 18:21:46 by hbruvry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/scop.h"
 
-/*
-** TODO
-*/
-
-t_ogl	*ft_getopengl(void)
+void	ft_exitscop(void)
 {
-	static t_ogl	*o = NULL;
+	t_ogl	*o;
 
-	if (o == NULL)
-	{
-		o = ft_memalloc(sizeof(t_ogl));
-		if (!o)
-			return (NULL);
-		o->window = NULL;
-		o->vertexarrayid = 0;
-		o->shaderprogramid = 0;
-		o->vertexbuffer = 0;
-		o->normalbuffer = 0;
-		o->uvbuffer = 0;
-		o->elementbuffer = 0;
-	}
-	return (o);
+	o = ft_getopengl();
+	glDeleteVertexArrays(1, &(o->vertexarrayid));
+	glDeleteBuffers(1, &(o->vertexbuffer));
+	glDeleteBuffers(1, &(o->normalbuffer));
+	glDeleteBuffers(1, &(o->uvbuffer));
+	glDeleteBuffers(1, &(o->elementbuffer));
+	glDeleteProgram(o->shaderprogramid);
+	glfwTerminate();
+	ft_putendl("Delete VBO\nDelete VAO\nExit program");
+	exit(EXIT_SUCCESS);
 }

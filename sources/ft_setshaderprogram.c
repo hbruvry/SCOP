@@ -16,7 +16,7 @@
 ** TODO
 */
 
-int			ft_setvertexshader(uint *vertexshaderid)
+int	ft_setvertexshader(uint *vertexshaderid)
 {
 	GLint		success;
 	const char	*vertexshadersource;
@@ -24,12 +24,14 @@ int			ft_setvertexshader(uint *vertexshaderid)
 
 	success = GL_FALSE;
 	*vertexshaderid = glCreateShader(GL_VERTEX_SHADER);
-	if (!(vertexshadersource = ft_filecpy("./shaders/vertexshader.vs")))
+	vertexshadersource = ft_filecpy("./shaders/vertexshader.vs");
+	if (!vertexshadersource)
 	{
 		ft_putendl("Failed to load vertex shader");
 		return (-1);
 	}
 	glShaderSource(*vertexshaderid, 1, &vertexshadersource, NULL);
+	free((void *)vertexshadersource);
 	glCompileShader(*vertexshaderid);
 	glGetShaderiv(*vertexshaderid, GL_COMPILE_STATUS, &success);
 	if (!success)
@@ -46,7 +48,7 @@ int			ft_setvertexshader(uint *vertexshaderid)
 ** TODO
 */
 
-int			ft_setfragmentshader(uint *fragmentshaderid)
+int	ft_setfragmentshader(uint *fragmentshaderid)
 {
 	GLint		success;
 	const char	*fragmentshadersource;
@@ -54,12 +56,14 @@ int			ft_setfragmentshader(uint *fragmentshaderid)
 
 	success = GL_FALSE;
 	*fragmentshaderid = glCreateShader(GL_FRAGMENT_SHADER);
-	if (!(fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs")))
+	fragmentshadersource = ft_filecpy("./shaders/fragmentshader.fs");
+	if (!fragmentshadersource)
 	{
 		ft_putendl("Failed to load fragment shader");
 		return (-1);
 	}
 	glShaderSource(*fragmentshaderid, 1, &fragmentshadersource, NULL);
+	free((void *)fragmentshadersource);
 	glCompileShader(*fragmentshaderid);
 	glGetShaderiv(*fragmentshaderid, GL_COMPILE_STATUS, &success);
 	if (!success)
@@ -76,7 +80,7 @@ int			ft_setfragmentshader(uint *fragmentshaderid)
 ** TODO
 */
 
-int			ft_linkshaders(GLuint *shaderprogramid)
+int	ft_linkshaders(GLuint *shaderprogramid)
 {
 	GLuint	vertexshaderid;
 	GLuint	fragmentshaderid;
@@ -97,7 +101,7 @@ int			ft_linkshaders(GLuint *shaderprogramid)
 ** TODO
 */
 
-int			ft_setshaderprogram(GLuint *shaderprogramid)
+int	ft_setshaderprogram(GLuint *shaderprogramid)
 {
 	t_env	*e;
 	GLint	success;

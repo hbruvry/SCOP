@@ -18,7 +18,7 @@
 
 float	ft_vec3magnitude(t_vec3 vec)
 {
-	float mag;
+	float	mag;
 
 	mag = sqrt(vec.v[0] * vec.v[0] + vec.v[1] * vec.v[1] + vec.v[2] * vec.v[2]);
 	return (mag);

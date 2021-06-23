@@ -18,7 +18,7 @@
 
 void	ft_mat4set(t_mat4 *mat, float f)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < 16)

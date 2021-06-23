@@ -18,7 +18,7 @@
 
 void	ft_vec3print(t_vec3 vec)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < 3)

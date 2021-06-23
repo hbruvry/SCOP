@@ -18,7 +18,7 @@
 
 t_mat4	ft_mat4scalar(t_mat4 mat, float scale)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (i++ < 16)

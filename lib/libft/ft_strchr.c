@@ -23,7 +23,7 @@ char	*ft_strchr(const char *s, int c)
 	char	pc;
 
 	i = 0;
-	ps = (char*)s;
+	ps = (char *)s;
 	pc = (char)c;
 	while (ps[i] != '\0')
 	{

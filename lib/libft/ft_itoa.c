@@ -18,7 +18,7 @@
 
 static	size_t	ft_intlen(int n)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (n == 0)
@@ -37,13 +37,14 @@ static	size_t	ft_intlen(int n)
 ** Convert an integer into a string
 */
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	size_t	i;
 	char	*itoa;
 
 	i = ft_intlen(n);
-	if (!(itoa = (char*)malloc((i + 1) * sizeof(char))))
+	itoa = (char *)malloc((i + 1) * sizeof(char));
+	if (!itoa)
 		return (NULL);
 	if (n == -2147483648)
 		return (ft_strcpy(itoa, "-2147483648"));

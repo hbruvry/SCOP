@@ -25,7 +25,7 @@ char	*ft_strndup(const char *s1, size_t n)
 	len = ft_strlen(s1);
 	if (n > len)
 		n = len;
-	s2 = (char*)malloc((n + 1) * sizeof(*s2));
+	s2 = (char *)malloc((n + 1) * sizeof(*s2));
 	if (s2 == NULL)
 		return (0);
 	ft_memcpy(s2, s1, n);

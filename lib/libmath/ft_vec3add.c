@@ -18,7 +18,7 @@
 
 t_vec3	ft_vec3add(t_vec3 vdst, t_vec3 vsrc)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < 3)

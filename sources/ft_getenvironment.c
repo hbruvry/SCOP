@@ -22,7 +22,7 @@ void	ft_setenvironmentobject(t_obj *obj)
 	obj->normalbufferdata = NULL;
 	obj->uvbufferdata = NULL;
 	obj->indicebufferdata = NULL;
-	obj->istextured = true;
+	obj->istextured = TRUE;
 	obj->texturealpha = 1.f;
 	obj->vcount = 0;
 	obj->fcount = 0;
@@ -40,12 +40,12 @@ void	ft_setenvironmentcamera(t_cam *cam)
 	cam->vpos = ft_vec3set(0.f, 0.f, 5.f);
 	cam->vfront = ft_vec3set(0.f, 0.f, -1.f);
 	cam->vtarget = ft_vec3set(0.f, 0.f, 0.f);
-	cam->target = false;
-	cam->turnaround = false;
+	cam->target = FALSE;
+	cam->turnaround = FALSE;
 	cam->fov = FOV;
 	cam->yaw = -90.f;
 	cam->pitch = 0.f;
-	cam->firstmouse = true;
+	cam->firstmouse = TRUE;
 	cam->lastx = WIDTH * 0.5f;
 	cam->lasty = HEIGHT * 0.5f;
 	return ;
@@ -61,7 +61,8 @@ t_env	*ft_getenvironment(void)
 
 	if (e == NULL)
 	{
-		if (!(e = ft_memalloc(sizeof(t_env))))
+		e = ft_memalloc(sizeof(t_env));
+		if (!e)
 			return (NULL);
 		ft_setenvironmentcamera(&(e->cam));
 		ft_setenvironmentcamera(&(e->camreset));

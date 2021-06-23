@@ -23,11 +23,11 @@ t_vec3	ft_vec3appmat4(t_vec3 vec, t_mat4 mat)
 	float	w;
 
 	vdst.v[0] = vec.v[0] * mat.m[0]
-				+ vec.v[1] * mat.m[4] + vec.v[2] * mat.m[8] + mat.m[12];
+		+ vec.v[1] * mat.m[4] + vec.v[2] * mat.m[8] + mat.m[12];
 	vdst.v[1] = vec.v[0] * mat.m[1]
-				+ vec.v[1] * mat.m[5] + vec.v[2] * mat.m[9] + mat.m[13];
+		+ vec.v[1] * mat.m[5] + vec.v[2] * mat.m[9] + mat.m[13];
 	vdst.v[2] = vec.v[0] * mat.m[2]
-				+ vec.v[1] * mat.m[6] + vec.v[2] * mat.m[10] + mat.m[14];
+		+ vec.v[1] * mat.m[6] + vec.v[2] * mat.m[10] + mat.m[14];
 	w = vec.v[0] * mat.m[3]
 		+ vec.v[1] * mat.m[7] + vec.v[2] * mat.m[11] + mat.m[15];
 	if (w != 1.f)

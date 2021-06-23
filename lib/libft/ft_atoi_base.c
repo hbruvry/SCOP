@@ -25,7 +25,7 @@ static int	ft_inbase(char c, int base)
 ** Convert a string into an integer according to its base
 */
 
-int			ft_atoi_base(const char *str, int base)
+int	ft_atoi_base(const char *str, int base)
 {
 	int	i;
 	int	sign;
@@ -37,9 +37,10 @@ int			ft_atoi_base(const char *str, int base)
 	if (base < 2 || base > 36)
 		return (0);
 	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r'
-			|| str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
+		|| str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
 		i++;
-	sign = (str[i] == '-') ? -1 : 1;
+	if (str[i] == '-')
+		sign = -1;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
 	while (ft_inbase(str[i], base))
